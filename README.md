@@ -1,5 +1,15 @@
 # Green Zone Halloween Application
 
+### What you need:
+Node
+VS Code or another IDE you like
+Postman (Recommended not needed)
+Access to our DB
+
+### How to Start
+1. npm install
+2. npm run serve
+
 ### How to Contribute:
 1. Fork this repository to your own repository
 2. Clone your repository to your local machine

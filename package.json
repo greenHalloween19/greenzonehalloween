@@ -1,0 +1,28 @@
+{
+  "name": "greenzonehalloween",
+  "version": "1.0.0",
+  "description": "Green Zone Halloween Application",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server",
+    "server": "nodemon server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/greenHalloween19/greenzonehalloween.git"
+  },
+  "author": "Jumpstart",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/greenHalloween19/greenzonehalloween/issues"
+  },
+  "homepage": "https://github.com/greenHalloween19/greenzonehalloween#readme",
+  "dependencies": {
+    "config": "^3.2.3",
+    "express": "^4.17.1",
+    "mongoose": "^5.7.5"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.4"
+  }
+}
