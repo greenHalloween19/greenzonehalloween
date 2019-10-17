@@ -4,8 +4,10 @@
   "description": "Green Zone Halloween Application",
   "main": "server.js",
   "scripts": {
-    "start": "node server",
-    "server": "nodemon server"
+    "start-server": "node server",
+    "server": "nodemon server",
+    "start-client": "npm start --prefix client",
+    "dev": "concurrently \"npm run start-server\" \"npm run start-client\""
   },
   "repository": {
     "type": "git",
@@ -24,6 +26,7 @@
     "mongoose": "^5.7.5"
   },
   "devDependencies": {
+    "concurrently": "^5.0.0",
     "nodemon": "^1.19.4"
   }
 }
