@@ -9,7 +9,7 @@ Access to our DB
 
 ### How to Start
 1. npm install
-2. npm run serve
+2. npm run dev to start client / server. (Refer to package.json to see the available scripts)
 
 ### How to Contribute:
 1. Fork this repository to your own repository
