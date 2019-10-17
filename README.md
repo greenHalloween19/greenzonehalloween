@@ -3,6 +3,7 @@
 ### What you need:
 Node
 VS Code or another IDE you like
+Prettier
 Postman (Recommended not needed)
 Access to our DB
 
