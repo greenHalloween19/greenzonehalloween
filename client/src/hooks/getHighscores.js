@@ -2,11 +2,11 @@ import { useState } from 'react';
 
 export const useGetHighscores = () => {
   const [scores, setScores] = useState([]);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
   const updateScores = async () => {
-    setError(null);
+    setError('');
     setLoading(true);
     try {
       const scoresResponse = await fetch('/scores');
@@ -16,7 +16,7 @@ export const useGetHighscores = () => {
       }
     } catch (e) {
       console.error(e);
-      setError(e && e.message);
+      setError('There was an error loading the scores.');
     }
   };
 
