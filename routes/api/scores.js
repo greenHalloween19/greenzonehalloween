@@ -74,4 +74,22 @@ router.delete('/', async (req, res) => {
   }
 });
 
+// @route DELETE api/scores/:id
+// @desc Delete the score with given id.
+// @access Public
+router.delete('/:id', async (req, res) => {
+  try {
+    let score = await Score.findById(req.params.id);
+    
+    if (!score) {
+      res.status(404).send('No scores were found.');
+    }
+    await score.remove();
+    res.send('The score was successfully deleted.');
+  } catch (e) {
+    console.error(e);
+    res.status(500).send('Failed to remove the score.');
+  }
+});
+
 module.exports = router;
