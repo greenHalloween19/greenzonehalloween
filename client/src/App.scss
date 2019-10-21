@@ -30,3 +30,40 @@
     flex-grow: 1;
   }
 }
+
+.home {
+  font-family: 'Press Start 2P', cursive;
+  color: orange;
+  background-color: black;
+  height: 100vh;
+  text-align: center;
+  overflow: auto;
+  &__title {
+    color: lime;
+    margin-top: 35%;
+  }
+}
+
+.button-list {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  height: 30%;
+  .link-button {
+    margin: 10px 0;
+  }
+}
+.link-button {
+  color: orange;
+  text-decoration: none;
+  display: block;
+  height: 20px;
+  border: solid 1px;
+  padding: 15px;
+  line-height: 20px;
+  &:focus {
+    background-color: lime;
+  }
+}

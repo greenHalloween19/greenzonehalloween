@@ -1,13 +1,15 @@
 import React from 'react';
 import { Router } from '@reach/router';
 import './App.scss';
-import Test from './components/Test';
 import Highscores from './components/Highscores';
+import GamePage from './components/GamePage';
+import Home from './components/Home';
 
 const App = () => (
   <Router>
-    <Test path="/"></Test>
+    <GamePage path="/play"></GamePage>
     <Highscores path="/highscores"></Highscores>
+    <Home default></Home>
   </Router>
 );
 
