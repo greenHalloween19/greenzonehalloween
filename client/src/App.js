@@ -1,16 +1,14 @@
 import React from 'react';
+import { Router } from '@reach/router';
 import './App.scss';
+import Test from './components/Test';
+import Highscores from './components/Highscores';
 
 const App = () => (
-  <h1>
-    <span role="img" aria-label="hype">
-      🎉
-    </span>{' '}
-    The Green Zone is the best zone.{' '}
-    <span role="img" aria-label="hype">
-      🎉
-    </span>
-  </h1>
+  <Router>
+    <Test path="/"></Test>
+    <Highscores path="/highscores"></Highscores>
+  </Router>
 );
 
 export default App;
