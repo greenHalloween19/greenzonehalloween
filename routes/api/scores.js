@@ -9,7 +9,7 @@ const Score = require('../../models/Score');
 router.post(
   '/',
   [
-    check('name', 'Name is required.').isLength({ max: 15 }),
+    check('name', 'Name is required.').isLength({ max: 9 }),
     check(
       'score',
       'Score is required and needs to be a valid number.'
