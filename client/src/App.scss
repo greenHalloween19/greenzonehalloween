@@ -1,3 +1,4 @@
+// TODO: Have a lot of reused code here, make reusable classes.
 .highscores {
   font-family: 'Press Start 2P', cursive;
   text-align: center;
@@ -64,14 +65,52 @@
   border: solid 1px;
   padding: 15px;
   line-height: 20px;
-  &:focus, &:hover {
+  &:focus,
+  &:hover {
     background-color: lime;
   }
 }
 
-.game {
-  background-color: black;
+.button-control {
   color: orange;
+  background-color: transparent;
+  border: 1px solid;
+  padding: 15px;
+  line-height: 5px;
+  cursor: pointer;
+  &:focus,
+  &:hover {
+    background-color: lime;
+  }
+}
+.game {
+  font-family: 'Press Start 2P', cursive;
+  color: orange;
+  background-color: black;
   height: 100vh;
+  text-align: center;
   overflow: auto;
+  &__header {
+    color: lime;
+  }
+  input {
+    font-family: 'Press Start 2P', cursive;
+    color: orange;
+    &.text-input {
+      border: 2px solid;
+      padding: 10px;
+    }
+  }
+  &__section {
+    margin-top: 30vh;
+  }
+  &__form {
+    form {
+      display: flex;
+      flex-direction: column;
+      .button-control__container {
+        margin-top: 10px;
+      }
+    }
+  }
 }

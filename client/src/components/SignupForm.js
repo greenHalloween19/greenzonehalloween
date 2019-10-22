@@ -17,14 +17,19 @@ const SignupForm = ({ onFormSubmitted }) => {
   };
   return (
     <form onSubmit={e => onSubmit(e)}>
-      <input
-        type="text"
-        onChange={e => setUsername(e.target.value)}
-        value={userName}
-        aria-label="Enter Username"
-        placeholder="Enter a username"
-      ></input>
-      <input type="submit" value="Submit"></input>
+      <div className="text-input__container">
+        <input
+          className="text-input"
+          type="text"
+          onChange={e => setUsername(e.target.value)}
+          value={userName}
+          aria-label="Enter Username"
+          placeholder="Enter a username"
+        ></input>
+      </div>
+      <div className="button-control__container">
+        <input className="button-control" type="submit" value="Submit"></input>
+      </div>
       {submissionError && (
         <label className="error-label">{submissionError}</label>
       )}
