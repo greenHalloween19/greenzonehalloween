@@ -25,7 +25,7 @@ const GamePage = () => {
     // Random # 1 - 10.
     const spinnedNumber = Math.floor(Math.random() * 10) + 1;
     const tileIndex = Math.floor(
-      Math.random() * (tiles['example-area-options'].length - 1)
+      Math.random() * (tiles['example-area-options'].length)
     );
     setTimeout(() => {
       setSpinnedNumber(spinnedNumber);
