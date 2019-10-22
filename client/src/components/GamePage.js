@@ -52,15 +52,12 @@ const GamePage = () => {
           </button>
         </section>
       )}
-
       {gameState === 3 && (
         <section className="game__section">
           <h1>You are on tile number: {currentTileNumber}</h1>
         </section>
       )}
-
-      {/* Might want to make this "modal" above parent level / own component later. */}
-      {
+      {isRolling && (
         <div className="rolling-overlay">
           <div>
             <img
@@ -71,7 +68,7 @@ const GamePage = () => {
           </div>
           <h1>Rolling...</h1>
         </div>
-      }
+      )}
     </div>
   );
 };
