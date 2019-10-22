@@ -4,6 +4,7 @@ import OogieBoogie from '../assets/OogieBoogie.png';
 import { tiles } from '../data/tiles';
 
 const GamePage = () => {
+  // TODO: Refactor gamestate into one object and useReducer to manage it
   const [gameState, setGameState] = useState(1);
   const [currentUser, setCurrentUser] = useState('');
   const [currentTileNumber, setCurrentTileNumber] = useState(0);
