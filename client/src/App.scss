@@ -114,3 +114,38 @@
     }
   }
 }
+
+.roll-button {
+  font-family: 'Press Start 2P', cursive;
+  margin-top: 10px;
+}
+
+.button-emoji {
+  font-size: 21px;
+}
+
+.rolling-overlay {
+  position: absolute;
+  height: 100vh;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  &__img {
+    height: 75px;
+    animation: rotation 2s infinite linear;
+  }
+}
+
+@keyframes rotation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(359deg);
+  }
+}
