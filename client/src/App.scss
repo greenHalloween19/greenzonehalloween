@@ -25,6 +25,7 @@
     display: flex;
     align-items: flex-end;
     width: 100%;
+    line-height: 58px;
   }
   &__divider {
     flex-grow: 1;
@@ -40,7 +41,7 @@
   overflow: auto;
   &__title {
     color: lime;
-    margin-top: 35%;
+    margin-top: 30vh;
   }
 }
 
@@ -63,7 +64,7 @@
   border: solid 1px;
   padding: 15px;
   line-height: 20px;
-  &:focus {
+  &:focus, &:hover {
     background-color: lime;
   }
 }
