@@ -33,6 +33,10 @@
   }
 }
 
+.primary-title {
+  color: lime;
+}
+
 .home {
   font-family: 'Press Start 2P', cursive;
   color: orange;
@@ -93,6 +97,14 @@
   &__header {
     color: lime;
   }
+  &__outcome {
+    width: 80vw;
+    height: 50vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border: 2px solid;
+  }
   input {
     font-family: 'Press Start 2P', cursive;
     color: orange;
@@ -103,14 +115,70 @@
   }
   &__section {
     margin-top: 30vh;
+    &--playing {
+      margin-top: 0;
+      align-items: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-evenly;
+      height: 100vh;
+    }
   }
   &__form {
     form {
       display: flex;
       flex-direction: column;
       .button-control__container {
-        margin-top: 10px;
+        margin-top: 25px;
       }
     }
   }
+}
+
+.roll-button {
+  font-family: 'Press Start 2P', cursive;
+  margin-top: 10px;
+}
+
+.button-emoji {
+  font-size: 21px;
+}
+
+.rolling-overlay {
+  position: absolute;
+  height: 100vh;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.9);
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  &__img {
+    height: 75px;
+    animation: rotation 2s infinite linear;
+  }
+}
+
+@keyframes rotation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(359deg);
+  }
+}
+
+.error-label {
+  margin-top: 10px;
+  color: red;
+}
+
+.lose {
+  color: red;
+}
+
+.gain {
+  color: lime;
 }
