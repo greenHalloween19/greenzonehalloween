@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, Fragment } from 'react';
 import SignupForm from './SignupForm';
 import OogieBoogie from '../assets/OogieBoogie.png';
 import { tiles } from '../data/tiles';
+import LinkButton from './LinkButton';
+import { useGetHighscores } from '../hooks/getHighscores';
 
 const GamePage = () => {
+  // TODO: Refactor gamestate into one object and useReducer to manage it
   const [gameState, setGameState] = useState(1);
   const [currentUser, setCurrentUser] = useState('');
   const [currentTileNumber, setCurrentTileNumber] = useState(0);
@@ -11,7 +14,10 @@ const GamePage = () => {
   const [lastSpinnedNumber, setSpinnedNumber] = useState(0);
   const [isSpinning, setSpinning] = useState(false);
   const [isConfirmingSpin, setConfirmingSpin] = useState(false);
-  const [ currentPoints, setCurrentPoints ] = useState(0);
+  const [currentPoints, setCurrentPoints] = useState(0);
+  const [loadingResult, setLoadingResult] = useState(false);
+  const [scorePostingError, setScorePostingError] = useState('');
+  const [scores, , error, updateScores] = useGetHighscores();
 
   const userInfoSubmitted = username => {
     setGameState(2);
@@ -23,14 +29,25 @@ const GamePage = () => {
     setSpinning(true);
     // Random # 1 - 10.
     const spinnedNumber = Math.floor(Math.random() * 10) + 1;
-    const tileIndex = Math.floor(
-      Math.random() * (tiles['example-area-options'].length - 1)
-    );
-    setTimeout(() => {
+    const nextTile = currentTileNumber + spinnedNumber;
+    if (nextTile < tiles.totalNumberOfTiles) {
       setSpinnedNumber(spinnedNumber);
-      setCurrentTileData(tiles['example-area-options'][tileIndex]);
-      setCurrentTileNumber(currentTileNumber + spinnedNumber);
-      setCurrentPoints(currentPoints + (tiles['example-area-options'][tileIndex].points));
+      setCurrentTileNumber(nextTile);
+    } else {
+      setSpinnedNumber(tiles.totalNumberOfTiles - currentTileNumber);
+      setCurrentTileNumber(tiles.totalNumberOfTiles);
+    }
+    let area = '';
+    if (currentTileNumber <= 50) {
+      area = 'example-area-options';
+    }
+    if (currentTileNumber >= 51) {
+      area = 'example-area-options2';
+    }
+    const tileIndex = Math.floor(Math.random() * tiles[area].length);
+    setCurrentTileData(tiles[area][tileIndex]);
+    setCurrentPoints(currentPoints + tiles[area][tileIndex].points);
+    setTimeout(() => {
       setSpinning(false);
       setConfirmingSpin(true);
     }, 2000);
@@ -39,6 +56,43 @@ const GamePage = () => {
   const startGame = () => {
     setGameState(3);
     spinTheSpinner();
+  };
+
+  const postScore = async () => {
+    try {
+      const scorePost = await fetch('/scores', {
+        method: 'POST',
+        mode: 'same-origin',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        referrer: 'no-referrer',
+        body: JSON.stringify({ name: currentUser, score: currentPoints })
+      });
+      console.log(scorePost);
+      updateScores(1000);
+    } catch (e) {
+      console.error(e);
+      setScorePostingError('There was an error posting your score!');
+    }
+    setLoadingResult(false);
+  };
+
+  const getPosition = () => {
+    const currentPosition = scores.findIndex(
+      score => score.name === currentUser
+    );
+    if (currentPosition > -1) {
+      return currentPosition;
+    } else {
+      setScorePostingError('Could not get your score position at this time :(');
+    }
+  };
+
+  const endTheGame = () => {
+    setLoadingResult(true);
+    setGameState(4);
+    postScore();
   };
 
   return (
@@ -71,11 +125,10 @@ const GamePage = () => {
           <div>
             <h1 className="primary-title">{currentUser}</h1>
             <h3>
-              Go to tile:{' '}
-              <span className="primary-title">{currentTileNumber}</span>
+              tile: <span className="primary-title">{currentTileNumber}</span>
             </h3>
             <h3>
-              Current Score: <span className="primary-title">{currentPoints}</span>
+              Score: <span className="primary-title">{currentPoints}</span>
             </h3>
           </div>
           <section className="game__outcome">
@@ -86,12 +139,41 @@ const GamePage = () => {
               <p> {currentTileData.points} pts!</p>
             </div>
           </section>
-          <input
-            onClick={() => spinTheSpinner()}
-            type="button"
-            className="roll-button button-control"
-            value="Spin Again"
-          ></input>
+          {currentTileNumber < tiles.totalNumberOfTiles && (
+            <input
+              onClick={() => spinTheSpinner()}
+              type="button"
+              className="roll-button button-control"
+              value="Spin Again"
+            ></input>
+          )}
+          {currentTileNumber >= tiles.totalNumberOfTiles && (
+            <input
+              onClick={() => endTheGame()}
+              type="button"
+              className="roll-button button-control"
+              value="End Game"
+            ></input>
+          )}
+        </section>
+      )}
+      {gameState === 4 && (
+        <section className="game__section game__section--playing">
+          <h1 className="primary-title">Game Complete!</h1>
+          {loadingResult && <h2>Loading...</h2>}
+          {!loadingResult && scores && scores.length > 0 && (
+            <Fragment>
+              {!scorePostingError && (
+                <p>Congratulations! you've placed: {getPosition()}</p>
+              )}
+              {(error || scorePostingError) && (
+                <p>{error || scorePostingError}</p>
+              )}
+              <div>
+                <LinkButton label="Home Screen" navUrl="/"></LinkButton>
+              </div>
+            </Fragment>
+          )}
         </section>
       )}
       {isSpinning && (
@@ -111,12 +193,13 @@ const GamePage = () => {
         <div className="rolling-overlay">
           <h1 className="primary-title">You've spun the number:</h1>
           <h1>{lastSpinnedNumber}</h1>
+          <h2>Go to tile: {currentTileNumber}</h2>
           <div>
             <input
               onClick={() => setConfirmingSpin(false)}
               type="button"
               className="roll-button button-control"
-              value="Confirm"
+              value="Done"
             ></input>
           </div>
         </div>
