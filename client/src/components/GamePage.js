@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, Fragment } from 'react';
 import SignupForm from './SignupForm';
 import OogieBoogie from '../assets/OogieBoogie.png';
 import { tiles } from '../data/tiles';
+import LinkButton from './LinkButton';
+import { useGetHighscores } from '../hooks/getHighscores';
 
 const GamePage = () => {
   // TODO: Refactor gamestate into one object and useReducer to manage it
@@ -13,6 +15,9 @@ const GamePage = () => {
   const [isSpinning, setSpinning] = useState(false);
   const [isConfirmingSpin, setConfirmingSpin] = useState(false);
   const [currentPoints, setCurrentPoints] = useState(0);
+  const [loadingResult, setLoadingResult] = useState(false);
+  const [scorePostingError, setScorePostingError] = useState('');
+  const [scores, , error, updateScores] = useGetHighscores();
 
   const userInfoSubmitted = username => {
     setGameState(2);
@@ -24,21 +29,25 @@ const GamePage = () => {
     setSpinning(true);
     // Random # 1 - 10.
     const spinnedNumber = Math.floor(Math.random() * 10) + 1;
-    const tileIndex = Math.floor(
-      Math.random() * tiles['example-area-options'].length
-    );
+    const nextTile = currentTileNumber + spinnedNumber;
+    if (nextTile < tiles.totalNumberOfTiles) {
+      setSpinnedNumber(spinnedNumber);
+      setCurrentTileNumber(nextTile);
+    } else {
+      setSpinnedNumber(tiles.totalNumberOfTiles - currentTileNumber);
+      setCurrentTileNumber(tiles.totalNumberOfTiles);
+    }
+    let area = '';
+    if (currentTileNumber <= 50) {
+      area = 'example-area-options';
+    }
+    if (currentTileNumber >= 51) {
+      area = 'example-area-options2';
+    }
+    const tileIndex = Math.floor(Math.random() * tiles[area].length);
+    setCurrentTileData(tiles[area][tileIndex]);
+    setCurrentPoints(currentPoints + tiles[area][tileIndex].points);
     setTimeout(() => {
-      setCurrentTileData(tiles['example-area-options'][tileIndex]);
-      if (currentTileNumber + spinnedNumber < tiles.totalNumberOfTiles) {
-        setSpinnedNumber(spinnedNumber);
-        setCurrentTileNumber(currentTileNumber + spinnedNumber);
-      } else {
-        setSpinnedNumber(tiles.totalNumberOfTiles - currentTileNumber);
-        setCurrentTileNumber(100);
-      }
-      setCurrentPoints(
-        currentPoints + tiles['example-area-options'][tileIndex].points
-      );
       setSpinning(false);
       setConfirmingSpin(true);
     }, 2000);
@@ -49,9 +58,42 @@ const GamePage = () => {
     spinTheSpinner();
   };
 
+  const postScore = async () => {
+    try {
+      const scorePost = await fetch('/scores', {
+        method: 'POST',
+        mode: 'same-origin',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        referrer: 'no-referrer',
+        body: JSON.stringify({ name: currentUser, score: currentPoints })
+      });
+      console.log(scorePost);
+      updateScores();
+    } catch (e) {
+      console.error(e);
+      setScorePostingError('There was an error posting your score!');
+    }
+    setLoadingResult(false);
+  };
+
+  const getPosition = () => {
+    const currentPosition = scores.findIndex(
+      score => score.name === currentUser
+    );
+    if (currentPosition > -1) {
+      return currentPosition;
+    } else {
+      setScorePostingError('Could not get your score position at this time :(');
+    }
+  };
+
   const endTheGame = () => {
+    setLoadingResult(true);
     setGameState(4);
-  }
+    postScore();
+  };
 
   return (
     <div className="game">
@@ -97,7 +139,7 @@ const GamePage = () => {
               <p> {currentTileData.points} pts!</p>
             </div>
           </section>
-          {currentTileNumber !== tiles.totalNumberOfTiles && (
+          {currentTileNumber < tiles.totalNumberOfTiles && (
             <input
               onClick={() => spinTheSpinner()}
               type="button"
@@ -112,6 +154,25 @@ const GamePage = () => {
               className="roll-button button-control"
               value="End Game"
             ></input>
+          )}
+        </section>
+      )}
+      {gameState === 4 && (
+        <section className="game__section game__section--playing">
+          <h1 className="primary-title">Game Complete!</h1>
+          {loadingResult && <h2>Loading...</h2>}
+          {!loadingResult && scores && scores.length > 0 && (
+            <Fragment>
+              {!scorePostingError && (
+                <p>Congratulations! you've placed: {getPosition()}</p>
+              )}
+              {(error || scorePostingError) && (
+                <p>{error || scorePostingError}</p>
+              )}
+              <div>
+                <LinkButton label="Home Screen" navUrl="/"></LinkButton>
+              </div>
+            </Fragment>
           )}
         </section>
       )}
