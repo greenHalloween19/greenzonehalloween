@@ -10,8 +10,12 @@ export const useGetHighscores = () => {
     setLoading(true);
     try {
       const scoresResponse = await fetch('/scores');
-      const scoresData = await scoresResponse.json();
+      let scoresData = await scoresResponse.json();
       if (scoresData) {
+        scoresData = scoresData.sort((a, b) => {
+          return b.value - a.value
+        }).slice(0,10);
+        console.log(scoresData)
         setScores(scoresData);
       }
     } catch (e) {
