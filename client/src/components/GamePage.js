@@ -70,7 +70,7 @@ const GamePage = () => {
         body: JSON.stringify({ name: currentUser, score: currentPoints })
       });
       console.log(scorePost);
-      updateScores();
+      updateScores(1000);
     } catch (e) {
       console.error(e);
       setScorePostingError('There was an error posting your score!');
