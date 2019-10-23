@@ -11,8 +11,8 @@ export const useGetHighscores = (highScoresToGrab = 10) => {
     try {
       const scoresResponse = await fetch('/scores');
       const scoresData = await scoresResponse.json();
-      if (scoresData.slice(0, highScoresToGrab)) {
-        setScores(scoresData);
+      if (scoresData) {
+        setScores(scoresData.slice(0, highScoresToGrab));
       }
     } catch (e) {
       console.error(e);
