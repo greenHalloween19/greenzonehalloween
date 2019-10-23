@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-export const useGetHighscores = () => {
+export const useGetHighscores = (highScoresToGrab = 10) => {
   const [scores, setScores] = useState([]);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -11,7 +11,7 @@ export const useGetHighscores = () => {
     try {
       const scoresResponse = await fetch('/scores');
       const scoresData = await scoresResponse.json();
-      if (scoresData) {
+      if (scoresData.slice(0, highScoresToGrab)) {
         setScores(scoresData);
       }
     } catch (e) {
