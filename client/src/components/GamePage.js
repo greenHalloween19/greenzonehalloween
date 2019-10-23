@@ -12,7 +12,7 @@ const GamePage = () => {
   const [lastSpinnedNumber, setSpinnedNumber] = useState(0);
   const [isSpinning, setSpinning] = useState(false);
   const [isConfirmingSpin, setConfirmingSpin] = useState(false);
-  const [ currentPoints, setCurrentPoints ] = useState(0);
+  const [currentPoints, setCurrentPoints] = useState(0);
 
   const userInfoSubmitted = username => {
     setGameState(2);
@@ -25,13 +25,20 @@ const GamePage = () => {
     // Random # 1 - 10.
     const spinnedNumber = Math.floor(Math.random() * 10) + 1;
     const tileIndex = Math.floor(
-      Math.random() * (tiles['example-area-options'].length)
+      Math.random() * tiles['example-area-options'].length
     );
     setTimeout(() => {
-      setSpinnedNumber(spinnedNumber);
       setCurrentTileData(tiles['example-area-options'][tileIndex]);
-      setCurrentTileNumber(currentTileNumber + spinnedNumber);
-      setCurrentPoints(currentPoints + (tiles['example-area-options'][tileIndex].points));
+      if (currentTileNumber + spinnedNumber < tiles.totalNumberOfTiles) {
+        setSpinnedNumber(spinnedNumber);
+        setCurrentTileNumber(currentTileNumber + spinnedNumber);
+      } else {
+        setSpinnedNumber(tiles.totalNumberOfTiles - currentTileNumber);
+        setCurrentTileNumber(100);
+      }
+      setCurrentPoints(
+        currentPoints + tiles['example-area-options'][tileIndex].points
+      );
       setSpinning(false);
       setConfirmingSpin(true);
     }, 2000);
@@ -41,6 +48,10 @@ const GamePage = () => {
     setGameState(3);
     spinTheSpinner();
   };
+
+  const endTheGame = () => {
+    setGameState(4);
+  }
 
   return (
     <div className="game">
@@ -72,11 +83,10 @@ const GamePage = () => {
           <div>
             <h1 className="primary-title">{currentUser}</h1>
             <h3>
-              Go to tile:{' '}
-              <span className="primary-title">{currentTileNumber}</span>
+              tile: <span className="primary-title">{currentTileNumber}</span>
             </h3>
             <h3>
-              Current Score: <span className="primary-title">{currentPoints}</span>
+              Score: <span className="primary-title">{currentPoints}</span>
             </h3>
           </div>
           <section className="game__outcome">
@@ -87,12 +97,22 @@ const GamePage = () => {
               <p> {currentTileData.points} pts!</p>
             </div>
           </section>
-          <input
-            onClick={() => spinTheSpinner()}
-            type="button"
-            className="roll-button button-control"
-            value="Spin Again"
-          ></input>
+          {currentTileNumber !== tiles.totalNumberOfTiles && (
+            <input
+              onClick={() => spinTheSpinner()}
+              type="button"
+              className="roll-button button-control"
+              value="Spin Again"
+            ></input>
+          )}
+          {currentTileNumber >= tiles.totalNumberOfTiles && (
+            <input
+              onClick={() => endTheGame()}
+              type="button"
+              className="roll-button button-control"
+              value="End Game"
+            ></input>
+          )}
         </section>
       )}
       {isSpinning && (
@@ -112,12 +132,13 @@ const GamePage = () => {
         <div className="rolling-overlay">
           <h1 className="primary-title">You've spun the number:</h1>
           <h1>{lastSpinnedNumber}</h1>
+          <h2>Go to tile: {currentTileNumber}</h2>
           <div>
             <input
               onClick={() => setConfirmingSpin(false)}
               type="button"
               className="roll-button button-control"
-              value="Confirm"
+              value="Done"
             ></input>
           </div>
         </div>

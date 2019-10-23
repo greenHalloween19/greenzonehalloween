@@ -25,5 +25,6 @@ export const tiles = {
       desc: 'You eat some yummy candy and get 10000 points!',
       points: -1000
     }
-  ]
+  ],
+  totalNumberOfTiles: 100
 };
