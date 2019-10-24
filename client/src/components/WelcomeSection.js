@@ -1,7 +1,7 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 
-const WelcomePage = ({ currentUser, onSpin }) => (
-  <Fragment>
+const WelcomeSection = ({ currentUser, onSpin }) => (
+  <section className="game__section">
     <h1 className="game__header">{currentUser}</h1>
     <h2>Welcome to the game!</h2>
     <p>Please spin using the button below when you are ready to continue!</p>
@@ -11,6 +11,6 @@ const WelcomePage = ({ currentUser, onSpin }) => (
       className="roll-button button-control"
       value="Spin!"
     ></input>
-  </Fragment>
+  </section>
 );
-export default WelcomePage;
+export default WelcomeSection;

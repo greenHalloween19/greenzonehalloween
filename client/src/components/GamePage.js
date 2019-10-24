@@ -1,11 +1,11 @@
-import React, { useState, Fragment } from 'react';
+import React, { useState } from 'react';
 import SignupForm from './SignupForm';
 import OogieBoogie from '../assets/OogieBoogie.png';
 import { tiles } from '../data/tiles';
-import LinkButton from './LinkButton';
 import { useGetHighscores } from '../hooks/getHighscores';
-import WelcomePage from './WelcomePage';
-import ActiveGamePage from './ActiveGamePage';
+import WelcomeSection from './WelcomeSection';
+import ActiveGameSection from './ActiveGameSection';
+import ResultsSection from './ResultsSection';
 
 const GamePage = () => {
   // TODO: Refactor gamestate into one object and useReducer to manage it
@@ -101,69 +101,41 @@ const GamePage = () => {
     <div className="game">
       {/* Sign Up */}
       {gameState === 1 && (
-        <section className=" game__form game__section">
-          <h1 className="game__header">What's Your Name?</h1>
-          <SignupForm
-            onFormSubmitted={username => userInfoSubmitted(username)}
-          ></SignupForm>
-        </section>
+        <SignupForm
+          onFormSubmitted={username => userInfoSubmitted(username)}
+        ></SignupForm>
       )}
 
       {/* Welcome Page After Sign Up (Path Choice) */}
       {gameState === 2 && (
-        <section className="game__section">
-          <WelcomePage
-            currentUser={currentUser}
-            onSpin={() => startGame()}
-          ></WelcomePage>
-        </section>
+        <WelcomeSection
+          currentUser={currentUser}
+          onSpin={() => startGame()}
+        ></WelcomeSection>
       )}
 
       {/* Active Game Page */}
       {gameState === 3 && currentTileData && (
-        <section className="game__section game__section--playing">
-          <ActiveGamePage
-            currentUser={currentUser}
-            currentTileNumber={currentTileNumber}
-            currentTileData={currentTileData}
-            tiles={tiles}
-            onSpin={() => spinTheSpinner()}
-            onGameEnd={() => endTheGame()}
-          ></ActiveGamePage>
-        </section>
+        <ActiveGameSection
+          currentUser={currentUser}
+          currentTileNumber={currentTileNumber}
+          currentTileData={currentTileData}
+          tiles={tiles}
+          onSpin={() => spinTheSpinner()}
+          onGameEnd={() => endTheGame()}
+          currentPoints={currentPoints}
+        ></ActiveGameSection>
       )}
       {gameState === 4 && (
-        <section className="game__section game__section--playing">
-          {(loadingResult || loading) && <h2>Loading...</h2>}
-          {(!loadingResult || !loading) && scores && scores.length > 0 && (
-            <Fragment>
-              <h1 className="primary-title">Game Complete!</h1>
-              <div>
-                <p>
-                  Score: <span className="primary-title">{currentPoints}</span>
-                </p>
-                {!scorePostingError && (
-                  <p>
-                    Position #{' '}
-                    <span className="primary-title">{getPosition()}</span>
-                  </p>
-                )}
-                {(error || scorePostingError) && (
-                  <p>{error || scorePostingError}</p>
-                )}
-              </div>
-              <div>
-                <LinkButton label="Home Screen" navUrl="/"></LinkButton>
-                <div className="button-gap-top">
-                  <LinkButton
-                    label="High Scores"
-                    navUrl="/highscores"
-                  ></LinkButton>
-                </div>
-              </div>
-            </Fragment>
-          )}
-        </section>
+        <ResultsSection
+          loadingResult={loadingResult}
+          loadingScores={loading}
+          scores={scores}
+          scorePostingError={scorePostingError}
+          scoreRetrievalError={error}
+          currentPosition={() => getPosition()}
+          currentPoints={currentPoints}
+        ></ResultsSection>
       )}
       {isSpinning && (
         <div className="rolling-overlay">

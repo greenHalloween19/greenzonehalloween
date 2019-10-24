@@ -16,24 +16,31 @@ const SignupForm = ({ onFormSubmitted }) => {
     );
   };
   return (
-    <form onSubmit={e => onSubmit(e)}>
-      <div className="text-input__container">
-        <input
-          className="text-input"
-          type="text"
-          onChange={e => setUsername(e.target.value)}
-          value={userName}
-          aria-label="Enter Username"
-          placeholder="Enter a username"
-        ></input>
-      </div>
-      <div className="button-control__container">
-        <input className="button-control" type="submit" value="Submit"></input>
-      </div>
-      {submissionError && (
-        <label className="error-label">{submissionError}</label>
-      )}
-    </form>
+    <section className=" game__form game__section">
+      <h1 className="game__header">What's Your Name?</h1>
+      <form onSubmit={e => onSubmit(e)}>
+        <div className="text-input__container">
+          <input
+            className="text-input"
+            type="text"
+            onChange={e => setUsername(e.target.value)}
+            value={userName}
+            aria-label="Enter Username"
+            placeholder="Enter a username"
+          ></input>
+        </div>
+        <div className="button-control__container">
+          <input
+            className="button-control"
+            type="submit"
+            value="Submit"
+          ></input>
+        </div>
+        {submissionError && (
+          <label className="error-label">{submissionError}</label>
+        )}
+      </form>
+    </section>
   );
 };
 

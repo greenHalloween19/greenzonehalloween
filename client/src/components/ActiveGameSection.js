@@ -1,6 +1,6 @@
-import React, {Fragment} from 'react';
+import React from 'react';
 
-const ActiveGamePage = ({
+const ActiveGameSection = ({
   currentUser,
   currentTileNumber,
   currentPoints,
@@ -9,7 +9,7 @@ const ActiveGamePage = ({
   onSpin,
   onGameEnd
 }) => (
-  <Fragment>
+  <section className="game__section game__section--playing">
     <div>
       <h1 className="primary-title">{currentUser}</h1>
       <h3>
@@ -43,7 +43,7 @@ const ActiveGamePage = ({
         value="End Game"
       ></input>
     )}
-  </Fragment>
+  </section>
 );
 
-export default ActiveGamePage;
+export default ActiveGameSection;
