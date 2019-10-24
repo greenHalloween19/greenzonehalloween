@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import SignupForm from './SignupForm';
-import OogieBoogie from '../assets/OogieBoogie.png';
 import { tiles } from '../data/tiles';
 import { useGetHighscores } from '../hooks/getHighscores';
 import WelcomeSection from './WelcomeSection';
 import ActiveGameSection from './ActiveGameSection';
 import ResultsSection from './ResultsSection';
+import SpinnerOverlay from './SpinnerOverlay';
 
 const GamePage = () => {
   // TODO: Refactor gamestate into one object and useReducer to manage it
@@ -137,38 +137,14 @@ const GamePage = () => {
           currentPoints={currentPoints}
         ></ResultsSection>
       )}
-      {isSpinning && (
-        <div className="rolling-overlay">
-          <div>
-            <img
-              className="rolling-overlay__img"
-              src={OogieBoogie}
-              alt="Oogie Boogie"
-            ></img>
-          </div>
-          <h2>Spinning...</h2>
-        </div>
-      )}
-
-      {isConfirmingSpin && (
-        <div className="rolling-overlay">
-          <h2>You've spun the number:</h2>
-          <div className="tile-number">
-            <span className="primary-title">{lastSpinnedNumber}</span>
-          </div>
-          <h2>Go to tile:</h2>
-          <div className="tile-number">
-            <span className="primary-title">{currentTileNumber}</span>
-          </div>
-          <div>
-            <input
-              onClick={() => setConfirmingSpin(false)}
-              type="button"
-              className="roll-button button-control"
-              value="Done"
-            ></input>
-          </div>
-        </div>
+      {(isSpinning || isConfirmingSpin) && (
+        <SpinnerOverlay
+          lastSpinnedNumber={lastSpinnedNumber}
+          onSpinConfirmed={() => setConfirmingSpin(false)}
+          isSpinning={isSpinning}
+          isConfirmingSpin={isConfirmingSpin}
+          currentTileNumber={currentTileNumber}
+        ></SpinnerOverlay>
       )}
     </div>
   );
