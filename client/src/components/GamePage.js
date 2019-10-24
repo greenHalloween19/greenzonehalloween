@@ -83,7 +83,7 @@ const GamePage = () => {
       score => score.name === currentUser
     );
     if (currentPosition > -1) {
-      return currentPosition;
+      return currentPosition + 1;
     } else {
       setScorePostingError('Could not get your score position at this time :(');
     }
