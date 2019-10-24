@@ -4,6 +4,7 @@ import OogieBoogie from '../assets/OogieBoogie.png';
 import { tiles } from '../data/tiles';
 import LinkButton from './LinkButton';
 import { useGetHighscores } from '../hooks/getHighscores';
+import WelcomePage from './WelcomePage';
 
 const GamePage = () => {
   // TODO: Refactor gamestate into one object and useReducer to manage it
@@ -107,17 +108,7 @@ const GamePage = () => {
       )}
       {gameState === 2 && (
         <section className="game__section">
-          <h1 className="game__header">{currentUser}</h1>
-          <h2>Welcome to the game!</h2>
-          <p>
-            Please spin using the button below when you are ready to continue!
-          </p>
-          <input
-            onClick={() => startGame()}
-            type="button"
-            className="roll-button button-control"
-            value="Spin!"
-          ></input>
+          <WelcomePage currentUser={currentUser} onSpin={() => startGame()}></WelcomePage>
         </section>
       )}
       {gameState === 3 && currentTileData && (
