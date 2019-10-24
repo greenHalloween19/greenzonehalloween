@@ -103,11 +103,15 @@
   }
   &__outcome {
     width: 80vw;
-    height: 50vh;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     border: 2px solid;
+    padding: 15px;
+    @media only screen and (min-width: 600px) {
+      width: auto;
+      padding: 25px;
+    }
   }
   input {
     font-family: 'Press Start 2P', cursive;
@@ -125,7 +129,9 @@
       display: flex;
       flex-direction: column;
       justify-content: space-evenly;
-      height: 100vh;
+      @media only screen and (min-height: 400px) {
+        height: 100vh;
+      }
     }
   }
   &__form {
