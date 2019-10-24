@@ -179,9 +179,8 @@ const GamePage = () => {
               </div>
               <div>
                 <LinkButton label="Home Screen" navUrl="/"></LinkButton>
-                <div>
+                <div className="button-gap-top">
                   <LinkButton
-                    className="button-gap-top"
                     label="High Scores"
                     navUrl="/highscores"
                   ></LinkButton>
