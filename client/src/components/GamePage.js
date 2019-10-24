@@ -17,7 +17,7 @@ const GamePage = () => {
   const [currentPoints, setCurrentPoints] = useState(0);
   const [loadingResult, setLoadingResult] = useState(false);
   const [scorePostingError, setScorePostingError] = useState('');
-  const [scores, , error, updateScores] = useGetHighscores();
+  const [scores, loading, error, updateScores] = useGetHighscores();
 
   const userInfoSubmitted = username => {
     setGameState(2);
@@ -83,7 +83,7 @@ const GamePage = () => {
       score => score.name === currentUser
     );
     if (currentPosition > -1) {
-      return currentPosition;
+      return currentPosition + 1;
     } else {
       setScorePostingError('Could not get your score position at this time :(');
     }
@@ -125,7 +125,7 @@ const GamePage = () => {
           <div>
             <h1 className="primary-title">{currentUser}</h1>
             <h3>
-              tile: <span className="primary-title">{currentTileNumber}</span>
+              Tile: <span className="primary-title">{currentTileNumber}</span>
             </h3>
             <h3>
               Score: <span className="primary-title">{currentPoints}</span>
@@ -159,18 +159,32 @@ const GamePage = () => {
       )}
       {gameState === 4 && (
         <section className="game__section game__section--playing">
-          <h1 className="primary-title">Game Complete!</h1>
-          {loadingResult && <h2>Loading...</h2>}
-          {!loadingResult && scores && scores.length > 0 && (
+          {(loadingResult || loading) && <h2>Loading...</h2>}
+          {(!loadingResult || !loading) && scores && scores.length > 0 && (
             <Fragment>
-              {!scorePostingError && (
-                <p>Congratulations! you've placed: {getPosition()}</p>
-              )}
-              {(error || scorePostingError) && (
-                <p>{error || scorePostingError}</p>
-              )}
+              <h1 className="primary-title">Game Complete!</h1>
+              <div>
+                <p>
+                  Score: <span className="primary-title">{currentPoints}</span>
+                </p>
+                {!scorePostingError && (
+                  <p>
+                    Position #{' '}
+                    <span className="primary-title">{getPosition()}</span>
+                  </p>
+                )}
+                {(error || scorePostingError) && (
+                  <p>{error || scorePostingError}</p>
+                )}
+              </div>
               <div>
                 <LinkButton label="Home Screen" navUrl="/"></LinkButton>
+                <div className="button-gap-top">
+                  <LinkButton
+                    label="High Scores"
+                    navUrl="/highscores"
+                  ></LinkButton>
+                </div>
               </div>
             </Fragment>
           )}
@@ -191,9 +205,14 @@ const GamePage = () => {
 
       {isConfirmingSpin && (
         <div className="rolling-overlay">
-          <h1 className="primary-title">You've spun the number:</h1>
-          <h1>{lastSpinnedNumber}</h1>
-          <h2>Go to tile: {currentTileNumber}</h2>
+          <h2>You've spun the number:</h2>
+          <div className="tile-number">
+            <span className="primary-title">{lastSpinnedNumber}</span>
+          </div>
+          <h2>Go to tile:</h2>
+          <div className="tile-number">
+            <span className="primary-title">{currentTileNumber}</span>
+          </div>
           <div>
             <input
               onClick={() => setConfirmingSpin(false)}
