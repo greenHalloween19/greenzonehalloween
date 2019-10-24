@@ -165,6 +165,7 @@
   display: flex;
   justify-content: center;
   flex-direction: column;
+  overflow: auto;
   &__img {
     height: 75px;
     animation: rotation 2s infinite linear;

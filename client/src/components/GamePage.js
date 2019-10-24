@@ -1,9 +1,11 @@
-import React, { useState, Fragment } from 'react';
+import React, { useState } from 'react';
 import SignupForm from './SignupForm';
-import OogieBoogie from '../assets/OogieBoogie.png';
 import { tiles } from '../data/tiles';
-import LinkButton from './LinkButton';
 import { useGetHighscores } from '../hooks/getHighscores';
+import WelcomeSection from './WelcomeSection';
+import ActiveGameSection from './ActiveGameSection';
+import ResultsSection from './ResultsSection';
+import SpinnerOverlay from './SpinnerOverlay';
 
 const GamePage = () => {
   // TODO: Refactor gamestate into one object and useReducer to manage it
@@ -97,131 +99,52 @@ const GamePage = () => {
 
   return (
     <div className="game">
+      {/* Sign Up */}
       {gameState === 1 && (
-        <section className=" game__form game__section">
-          <h1 className="game__header">What's Your Name?</h1>
-          <SignupForm
-            onFormSubmitted={username => userInfoSubmitted(username)}
-          ></SignupForm>
-        </section>
-      )}
-      {gameState === 2 && (
-        <section className="game__section">
-          <h1 className="game__header">{currentUser}</h1>
-          <h2>Welcome to the game!</h2>
-          <p>
-            Please spin using the button below when you are ready to continue!
-          </p>
-          <input
-            onClick={() => startGame()}
-            type="button"
-            className="roll-button button-control"
-            value="Spin!"
-          ></input>
-        </section>
-      )}
-      {gameState === 3 && currentTileData && (
-        <section className="game__section game__section--playing">
-          <div>
-            <h1 className="primary-title">{currentUser}</h1>
-            <h3>
-              Tile: <span className="primary-title">{currentTileNumber}</span>
-            </h3>
-            <h3>
-              Score: <span className="primary-title">{currentPoints}</span>
-            </h3>
-          </div>
-          <section className="game__outcome">
-            <h3 className="primary-title">{currentTileData.name}</h3>
-            <p>{currentTileData.desc}</p>
-            <div className={currentTileData.points > 0 ? 'gain' : 'lose'}>
-              <p>You {currentTileData.points > 0 ? 'gained' : 'lost'}:</p>
-              <p> {currentTileData.points} pts!</p>
-            </div>
-          </section>
-          {currentTileNumber < tiles.totalNumberOfTiles && (
-            <input
-              onClick={() => spinTheSpinner()}
-              type="button"
-              className="roll-button button-control"
-              value="Spin Again"
-            ></input>
-          )}
-          {currentTileNumber >= tiles.totalNumberOfTiles && (
-            <input
-              onClick={() => endTheGame()}
-              type="button"
-              className="roll-button button-control"
-              value="End Game"
-            ></input>
-          )}
-        </section>
-      )}
-      {gameState === 4 && (
-        <section className="game__section game__section--playing">
-          {(loadingResult || loading) && <h2>Loading...</h2>}
-          {(!loadingResult || !loading) && scores && scores.length > 0 && (
-            <Fragment>
-              <h1 className="primary-title">Game Complete!</h1>
-              <div>
-                <p>
-                  Score: <span className="primary-title">{currentPoints}</span>
-                </p>
-                {!scorePostingError && (
-                  <p>
-                    Position #{' '}
-                    <span className="primary-title">{getPosition()}</span>
-                  </p>
-                )}
-                {(error || scorePostingError) && (
-                  <p>{error || scorePostingError}</p>
-                )}
-              </div>
-              <div>
-                <LinkButton label="Home Screen" navUrl="/"></LinkButton>
-                <div className="button-gap-top">
-                  <LinkButton
-                    label="High Scores"
-                    navUrl="/highscores"
-                  ></LinkButton>
-                </div>
-              </div>
-            </Fragment>
-          )}
-        </section>
-      )}
-      {isSpinning && (
-        <div className="rolling-overlay">
-          <div>
-            <img
-              className="rolling-overlay__img"
-              src={OogieBoogie}
-              alt="Oogie Boogie"
-            ></img>
-          </div>
-          <h1>Spinning...</h1>
-        </div>
+        <SignupForm
+          onFormSubmitted={username => userInfoSubmitted(username)}
+        ></SignupForm>
       )}
 
-      {isConfirmingSpin && (
-        <div className="rolling-overlay">
-          <h2>You've spun the number:</h2>
-          <div className="tile-number">
-            <span className="primary-title">{lastSpinnedNumber}</span>
-          </div>
-          <h2>Go to tile:</h2>
-          <div className="tile-number">
-            <span className="primary-title">{currentTileNumber}</span>
-          </div>
-          <div>
-            <input
-              onClick={() => setConfirmingSpin(false)}
-              type="button"
-              className="roll-button button-control"
-              value="Done"
-            ></input>
-          </div>
-        </div>
+      {/* Welcome Page After Sign Up (Path Choice) */}
+      {gameState === 2 && (
+        <WelcomeSection
+          currentUser={currentUser}
+          onSpin={() => startGame()}
+        ></WelcomeSection>
+      )}
+
+      {/* Active Game Page */}
+      {gameState === 3 && currentTileData && (
+        <ActiveGameSection
+          currentUser={currentUser}
+          currentTileNumber={currentTileNumber}
+          currentTileData={currentTileData}
+          tiles={tiles}
+          onSpin={() => spinTheSpinner()}
+          onGameEnd={() => endTheGame()}
+          currentPoints={currentPoints}
+        ></ActiveGameSection>
+      )}
+      {gameState === 4 && (
+        <ResultsSection
+          loadingResult={loadingResult}
+          loadingScores={loading}
+          scores={scores}
+          scorePostingError={scorePostingError}
+          scoreRetrievalError={error}
+          currentPosition={() => getPosition()}
+          currentPoints={currentPoints}
+        ></ResultsSection>
+      )}
+      {(isSpinning || isConfirmingSpin) && (
+        <SpinnerOverlay
+          lastSpinnedNumber={lastSpinnedNumber}
+          onSpinConfirmed={() => setConfirmingSpin(false)}
+          isSpinning={isSpinning}
+          isConfirmingSpin={isConfirmingSpin}
+          currentTileNumber={currentTileNumber}
+        ></SpinnerOverlay>
       )}
     </div>
   );
