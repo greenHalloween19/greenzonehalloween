@@ -17,7 +17,7 @@ const GamePage = () => {
   const [currentPoints, setCurrentPoints] = useState(0);
   const [loadingResult, setLoadingResult] = useState(false);
   const [scorePostingError, setScorePostingError] = useState('');
-  const [scores, , error, updateScores] = useGetHighscores();
+  const [scores, loading, error, updateScores] = useGetHighscores();
 
   const userInfoSubmitted = username => {
     setGameState(2);
@@ -125,7 +125,7 @@ const GamePage = () => {
           <div>
             <h1 className="primary-title">{currentUser}</h1>
             <h3>
-              tile: <span className="primary-title">{currentTileNumber}</span>
+              Tile: <span className="primary-title">{currentTileNumber}</span>
             </h3>
             <h3>
               Score: <span className="primary-title">{currentPoints}</span>
@@ -160,17 +160,30 @@ const GamePage = () => {
       {gameState === 4 && (
         <section className="game__section game__section--playing">
           <h1 className="primary-title">Game Complete!</h1>
-          {loadingResult && <h2>Loading...</h2>}
-          {!loadingResult && scores && scores.length > 0 && (
+          {(loadingResult || loading) && <h2>Loading...</h2>}
+          {(!loadingResult || !loading) && scores && scores.length > 0 && (
             <Fragment>
-              {!scorePostingError && (
-                <p>Congratulations! you've placed: {getPosition()}</p>
-              )}
-              {(error || scorePostingError) && (
-                <p>{error || scorePostingError}</p>
-              )}
+              <div>
+                <p>
+                  Score: <span className="primary-title">{currentPoints}</span>
+                </p>
+                {!scorePostingError && (
+                  <p>
+                    Position #{' '}
+                    <span className="primary-title">{getPosition()}</span>
+                  </p>
+                )}
+                {(error || scorePostingError) && (
+                  <p>{error || scorePostingError}</p>
+                )}
+              </div>
               <div>
                 <LinkButton label="Home Screen" navUrl="/"></LinkButton>
+                <LinkButton
+                 className="button-gap-top"
+                  label="High Scores"
+                  navUrl="/highscores"
+                ></LinkButton>
               </div>
             </Fragment>
           )}
