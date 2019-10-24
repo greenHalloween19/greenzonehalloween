@@ -53,5 +53,5 @@ export const tiles = {
       points: -1000
     }
   ],
-  totalNumberOfTiles: 20
+  totalNumberOfTiles: 50
 };
