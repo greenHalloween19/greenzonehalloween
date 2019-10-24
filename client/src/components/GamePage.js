@@ -5,6 +5,7 @@ import { tiles } from '../data/tiles';
 import LinkButton from './LinkButton';
 import { useGetHighscores } from '../hooks/getHighscores';
 import WelcomePage from './WelcomePage';
+import ActiveGamePage from './ActiveGamePage';
 
 const GamePage = () => {
   // TODO: Refactor gamestate into one object and useReducer to manage it
@@ -98,6 +99,7 @@ const GamePage = () => {
 
   return (
     <div className="game">
+      {/* Sign Up */}
       {gameState === 1 && (
         <section className=" game__form game__section">
           <h1 className="game__header">What's Your Name?</h1>
@@ -106,46 +108,28 @@ const GamePage = () => {
           ></SignupForm>
         </section>
       )}
+
+      {/* Welcome Page After Sign Up (Path Choice) */}
       {gameState === 2 && (
         <section className="game__section">
-          <WelcomePage currentUser={currentUser} onSpin={() => startGame()}></WelcomePage>
+          <WelcomePage
+            currentUser={currentUser}
+            onSpin={() => startGame()}
+          ></WelcomePage>
         </section>
       )}
+
+      {/* Active Game Page */}
       {gameState === 3 && currentTileData && (
         <section className="game__section game__section--playing">
-          <div>
-            <h1 className="primary-title">{currentUser}</h1>
-            <h3>
-              Tile: <span className="primary-title">{currentTileNumber}</span>
-            </h3>
-            <h3>
-              Score: <span className="primary-title">{currentPoints}</span>
-            </h3>
-          </div>
-          <section className="game__outcome">
-            <h3 className="primary-title">{currentTileData.name}</h3>
-            <p>{currentTileData.desc}</p>
-            <div className={currentTileData.points > 0 ? 'gain' : 'lose'}>
-              <p>You {currentTileData.points > 0 ? 'gained' : 'lost'}:</p>
-              <p> {currentTileData.points} pts!</p>
-            </div>
-          </section>
-          {currentTileNumber < tiles.totalNumberOfTiles && (
-            <input
-              onClick={() => spinTheSpinner()}
-              type="button"
-              className="roll-button button-control"
-              value="Spin Again"
-            ></input>
-          )}
-          {currentTileNumber >= tiles.totalNumberOfTiles && (
-            <input
-              onClick={() => endTheGame()}
-              type="button"
-              className="roll-button button-control"
-              value="End Game"
-            ></input>
-          )}
+          <ActiveGamePage
+            currentUser={currentUser}
+            currentTileNumber={currentTileNumber}
+            currentTileData={currentTileData}
+            tiles={tiles}
+            onSpin={() => spinTheSpinner()}
+            onGameEnd={() => endTheGame()}
+          ></ActiveGamePage>
         </section>
       )}
       {gameState === 4 && (
@@ -190,7 +174,7 @@ const GamePage = () => {
               alt="Oogie Boogie"
             ></img>
           </div>
-          <h1>Spinning...</h1>
+          <h2>Spinning...</h2>
         </div>
       )}
 
