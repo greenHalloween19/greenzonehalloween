@@ -16,6 +16,10 @@
     margin: auto;
     border: 3px solid orange;
     padding: 25px;
+    font-size: 0.8em;
+    @media only screen and (min-width: 325px) {
+      font-size: 1em;
+    }
   }
   &__list {
     display: grid;
@@ -137,7 +141,7 @@
 
 .roll-button {
   font-family: 'Press Start 2P', cursive;
-  margin-top: 10px;
+  margin-top: 30px;
 }
 
 .button-emoji {
@@ -159,6 +163,9 @@
     height: 75px;
     animation: rotation 2s infinite linear;
   }
+  .tile-number {
+    font-size: 2em;
+  }
 }
 
 @keyframes rotation {
@@ -173,6 +180,10 @@
 .error-label {
   margin-top: 10px;
   color: red;
+}
+
+.button-gap-top {
+  margin-top: 10px;
 }
 
 .lose {

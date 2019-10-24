@@ -159,10 +159,10 @@ const GamePage = () => {
       )}
       {gameState === 4 && (
         <section className="game__section game__section--playing">
-          <h1 className="primary-title">Game Complete!</h1>
           {(loadingResult || loading) && <h2>Loading...</h2>}
           {(!loadingResult || !loading) && scores && scores.length > 0 && (
             <Fragment>
+              <h1 className="primary-title">Game Complete!</h1>
               <div>
                 <p>
                   Score: <span className="primary-title">{currentPoints}</span>
@@ -179,11 +179,13 @@ const GamePage = () => {
               </div>
               <div>
                 <LinkButton label="Home Screen" navUrl="/"></LinkButton>
-                <LinkButton
-                 className="button-gap-top"
-                  label="High Scores"
-                  navUrl="/highscores"
-                ></LinkButton>
+                <div>
+                  <LinkButton
+                    className="button-gap-top"
+                    label="High Scores"
+                    navUrl="/highscores"
+                  ></LinkButton>
+                </div>
               </div>
             </Fragment>
           )}
@@ -204,9 +206,14 @@ const GamePage = () => {
 
       {isConfirmingSpin && (
         <div className="rolling-overlay">
-          <h1 className="primary-title">You've spun the number:</h1>
-          <h1>{lastSpinnedNumber}</h1>
-          <h2>Go to tile: {currentTileNumber}</h2>
+          <h2>You've spun the number:</h2>
+          <div className="tile-number">
+            <span className="primary-title">{lastSpinnedNumber}</span>
+          </div>
+          <h2>Go to tile:</h2>
+          <div className="tile-number">
+            <span className="primary-title">{currentTileNumber}</span>
+          </div>
           <div>
             <input
               onClick={() => setConfirmingSpin(false)}
