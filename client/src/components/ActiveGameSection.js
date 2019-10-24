@@ -8,8 +8,9 @@ const ActiveGameSection = ({
   tiles,
   onSpin,
   onGameEnd
-}) => (
-  <section className="game__section game__section--playing">
+}) => {
+  const {desc, points, name} = currentTileData;
+  return (<section className="game__section game__section--playing">
     <div>
       <h1 className="primary-title">{currentUser}</h1>
       <h3>
@@ -20,11 +21,11 @@ const ActiveGameSection = ({
       </h3>
     </div>
     <section className="game__outcome">
-      <h3 className="primary-title">{currentTileData.name}</h3>
-      <p>{currentTileData.desc}</p>
-      <div className={currentTileData.points > 0 ? 'gain' : 'lose'}>
-        <p>You {currentTileData.points > 0 ? 'gained' : 'lost'}:</p>
-        <p> {currentTileData.points} pts!</p>
+      <h3 className="primary-title">{name}</h3>
+      <p>{desc}</p>
+      <div className={points > 0 ? 'gain' : 'lose'}>
+        <p>You {points > 0 ? 'gained' : 'lost'}:</p>
+        <p> {points} pts!</p>
       </div>
     </section>
     {currentTileNumber < tiles.totalNumberOfTiles && (
@@ -43,7 +44,7 @@ const ActiveGameSection = ({
         value="End Game"
       ></input>
     )}
-  </section>
-);
+  </section>);
+};
 
 export default ActiveGameSection;
