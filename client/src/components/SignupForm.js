@@ -4,13 +4,13 @@ import { CHARACTER_LIST } from '../data/characters';
 const SignupForm = ({ onFormSubmitted }) => {
   const [userName, setUsername] = useState('');
   const [submissionError, setSubmissionError] = useState('');
-  const [selectedCharacter, setSelectedCharacter] = useState('JACK');
+  const [selectedCharacter, setSelectedCharacter] = useState(CHARACTER_LIST[0]);
 
   const onSubmit = e => {
     e.preventDefault();
     setSubmissionError('');
     if (userName.length < 10 && userName.length > 1) {
-      onFormSubmitted(userName);
+      onFormSubmitted([userName, selectedCharacter]);
       return;
     }
     setSubmissionError(
@@ -44,11 +44,20 @@ const SignupForm = ({ onFormSubmitted }) => {
                 <input
                   type="radio"
                   name="site_name"
-                  value={name}
-                  checked={selectedCharacter === name}
-                  onChange={e => setSelectedCharacter(e.target.value)}
+                  value={id}
+                  checked={selectedCharacter.id === id}
+                  onChange={e =>
+                    setSelectedCharacter(CHARACTER_LIST[e.target.value - 1])
+                  }
                 />
-                <div className="character-tile">
+                <div
+                  className={
+                    'character-tile' +
+                    (selectedCharacter.id === id
+                      ? ' character-tile--selected'
+                      : '')
+                  }
+                >
                   <img
                     className="character-tile__img"
                     src={img}

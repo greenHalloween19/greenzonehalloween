@@ -19,11 +19,13 @@ const GamePage = () => {
   const [currentPoints, setCurrentPoints] = useState(0);
   const [loadingResult, setLoadingResult] = useState(false);
   const [scorePostingError, setScorePostingError] = useState('');
+  const [character, setCharacter] = useState(null);
   const [scores, loading, error, updateScores] = useGetHighscores();
 
-  const userInfoSubmitted = username => {
+  const userInfoSubmitted = ([username, character]) => {
     setGameState(2);
     setCurrentUser(username);
+    setCharacter(character);
   };
 
   const spinTheSpinner = () => {
@@ -102,7 +104,7 @@ const GamePage = () => {
       {/* Sign Up */}
       {gameState === 1 && (
         <SignupForm
-          onFormSubmitted={username => userInfoSubmitted(username)}
+          onFormSubmitted={formInfo => userInfoSubmitted(formInfo)}
         ></SignupForm>
       )}
 
@@ -144,6 +146,7 @@ const GamePage = () => {
           isSpinning={isSpinning}
           isConfirmingSpin={isConfirmingSpin}
           currentTileNumber={currentTileNumber}
+          character={character}
         ></SpinnerOverlay>
       )}
     </div>
