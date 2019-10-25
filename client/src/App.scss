@@ -140,8 +140,10 @@
     form {
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
-      height: 90%;
+      @media only screen and (min-height: 750px) {
+        justify-content: space-between;
+        height: 90%;
+      }
       .button-control__container {
         margin-top: 20px;
       }
