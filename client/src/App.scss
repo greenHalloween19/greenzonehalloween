@@ -211,12 +211,16 @@
   margin: 15px 0;
   .signup-label {
     display: block;
-    margin-bottom: 12px;
+    margin-bottom: 15px;
     font-size: 1.1em;
+    &--small {
+      font-size: 1em;
+    }
   }
 }
 
 .characters {
+  margin-top: 12px;
   .character__container {
     > input {
       display: none;
