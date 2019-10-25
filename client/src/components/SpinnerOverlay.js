@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import OogieBoogie from '../assets/OogieBoogie.png';
+import OogieBoogie from '../assets/OogieBoogie.svg';
 
 const SpinnerOverlay = ({ isSpinning, isConfirmingSpin, onSpinConfirmed, lastSpinnedNumber, currentTileNumber }) => (
   <section className="rolling-overlay">

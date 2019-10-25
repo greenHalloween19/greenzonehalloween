@@ -135,11 +135,15 @@
     }
   }
   &__form {
+    height: 100%;
+    overflow: auto;
     form {
       display: flex;
       flex-direction: column;
+      justify-content: space-between;
+      height: 90%;
       .button-control__container {
-        margin-top: 25px;
+        margin-top: 20px;
       }
     }
   }
@@ -199,4 +203,36 @@
 
 .gain {
   color: lime;
+}
+
+.input__container {
+  margin: 15px 0;
+  .signup-label {
+    display: block;
+    margin-bottom: 12px;
+    font-size: 1.1em;
+  }
+}
+
+.characters {
+  .character__container {
+    > input {
+      display: none;
+    }
+  }
+  display: grid;
+  grid-template-columns: repeat(3, 33%);
+  .character-tile {
+    &__img {
+      height: 90px;
+    }
+  }
+}
+
+.form__space--top {
+  margin-top: 25px;
+}
+
+.form__space--bottom {
+  margin-bottom: 25px;
 }
