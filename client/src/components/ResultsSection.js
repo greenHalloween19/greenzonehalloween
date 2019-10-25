@@ -19,12 +19,12 @@ const ResultsSection = ({
         <h1 className="primary-title">Game Complete!</h1>
         <div>
           <div>
-          <img
-            className="results__character"
-            src={character.img}
-            alt={character.name}
-          ></img>
-          <p className="primary-title">{currentUser}</p>
+            <img
+              className="results__character"
+              src={character.img}
+              alt={character.name}
+            ></img>
+            <p className="primary-title">{currentUser}</p>
           </div>
           <p>
             Score: <span className="primary-title">{currentPoints}</span>
