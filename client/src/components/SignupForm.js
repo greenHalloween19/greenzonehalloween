@@ -38,6 +38,7 @@ const SignupForm = ({ onFormSubmitted }) => {
 
         <div className="input__container">
           <label className="signup-label">Select a character:</label>
+          <label className="signup-label--small game__header">{selectedCharacter.name}</label>
           <div className="characters">
             {CHARACTER_LIST.map(({ id, name, img }) => (
               <label className="character__container" key={id}>
