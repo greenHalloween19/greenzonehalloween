@@ -137,6 +137,8 @@ const GamePage = () => {
           scoreRetrievalError={error}
           currentPosition={() => getPosition()}
           currentPoints={currentPoints}
+          character={character}
+          currentUser={currentUser}
         ></ResultsSection>
       )}
       {(isSpinning || isConfirmingSpin) && (
