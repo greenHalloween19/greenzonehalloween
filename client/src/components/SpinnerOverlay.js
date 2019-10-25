@@ -1,15 +1,14 @@
 import React, { Fragment } from 'react';
-import OogieBoogie from '../assets/OogieBoogie.png';
 
-const SpinnerOverlay = ({ isSpinning, isConfirmingSpin, onSpinConfirmed, lastSpinnedNumber, currentTileNumber }) => (
+const SpinnerOverlay = ({ isSpinning, isConfirmingSpin, onSpinConfirmed, lastSpinnedNumber, currentTileNumber, character }) => (
   <section className="rolling-overlay">
     {isSpinning && (
       <Fragment>
         <div>
           <img
             className="rolling-overlay__img"
-            src={OogieBoogie}
-            alt="Oogie Boogie"
+            src={character.img}
+            alt={character.name}
           ></img>
         </div>
         <h2>Spinning...</h2>
