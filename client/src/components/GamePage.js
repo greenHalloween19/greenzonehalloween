@@ -29,7 +29,8 @@ const GamePage = () => {
   const [
     {
       isEnteringPresentCode,
-      presentErrorLabel
+      presentErrorLabel,
+      listOfPresents
     },
     enteringPresentCode,
     presentOverlayClosed,
@@ -155,6 +156,7 @@ const GamePage = () => {
           currentTileNumber={currentTileNumber}
           currentTileData={currentTileData}
           tiles={tiles}
+          listOfPresents={listOfPresents}
           onSpin={() => spinTheSpinner()}
           onGameEnd={() => endTheGame()}
           currentPoints={currentPoints}
