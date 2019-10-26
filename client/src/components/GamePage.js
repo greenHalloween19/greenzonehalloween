@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import SignupForm from './SignupForm';
 import { tiles } from '../data/tiles';
 import { useGetHighscores } from '../hooks/getHighscores';
@@ -18,6 +18,7 @@ const GamePage = () => {
   const [isConfirmingSpin, setConfirmingSpin] = useState(false);
   const [currentPoints, setCurrentPoints] = useState(0);
   const [loadingResult, setLoadingResult] = useState(false);
+  const [isTheVoidPath, setVoidPath] = useState(null);
   const [scorePostingError, setScorePostingError] = useState('');
   const [character, setCharacter] = useState(null);
   const [scores, loading, error, updateScores] = useGetHighscores();
@@ -28,12 +29,19 @@ const GamePage = () => {
     setCharacter(character);
   };
 
-  const spinTheSpinner = () => {
+  // Really need to refactor this.
+  const spinTheSpinner = (firstVoidPathRoll = false) => {
     setSpinnedNumber(0);
     setSpinning(true);
     // Random # 1 - 10.
     const spinnedNumber = Math.floor(Math.random() * 10) + 1;
-    const nextTile = currentTileNumber + spinnedNumber;
+    let nextTile = currentTileNumber + spinnedNumber;
+
+    // Skips to void area if you chose to start there.
+    if (firstVoidPathRoll) {
+      nextTile += 21;
+    }
+
     if (nextTile < tiles.totalNumberOfTiles) {
       setSpinnedNumber(spinnedNumber);
       setCurrentTileNumber(nextTile);
@@ -57,10 +65,21 @@ const GamePage = () => {
     }, 2000);
   };
 
-  const startGame = () => {
-    setGameState(3);
-    spinTheSpinner();
+  const startGame = isTheVoid => {
+    setVoidPath(isTheVoid);
   };
+
+  useEffect(
+    () => {
+      if (isTheVoidPath !== null) {
+        spinTheSpinner(isTheVoidPath);
+        setGameState(3);
+      }
+    },
+    // Figure out why setIsTheVoid path is changing every render.
+    // eslint-disable-next-line
+    [isTheVoidPath]
+  );
 
   const postScore = async () => {
     try {
@@ -112,7 +131,7 @@ const GamePage = () => {
       {gameState === 2 && (
         <WelcomeSection
           currentUser={currentUser}
-          onSpin={() => startGame()}
+          onSpin={isTheVoid => startGame(isTheVoid)}
         ></WelcomeSection>
       )}
 

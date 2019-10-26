@@ -148,6 +148,30 @@
         margin-top: 20px;
       }
     }
+
+    .path-choices {
+      margin-top: 15px;
+      input {
+        display: none;
+      }
+      display: grid;
+      grid-template-columns: repeat(2, 50%);
+      .path-tile {
+        position: relative;
+        &--selected {
+          &::before {
+            content: '';
+            width: 20px;
+            height: 20px;
+            background-color: orange;
+            box-shadow: 41px -33px 33px 20px orange;
+          }
+        }
+        &__img {
+          height: 90px;
+        }
+      }
+    }
   }
 }
 
