@@ -34,14 +34,14 @@ const PresentCodeOverlay = ({
         )}
         <div>
           <input
-            className="button-control form__space--top form__space--bottom"
+            className="button-control form__space--top form__space--bottom form__space--right"
             type="submit"
             value="Submit"
           ></input>
           <input
             className="button-control form__space--top form__space--bottom"
             type="button"
-            value="Cancel"
+            value="x"
             onClick={() => closePresentOverlay()}
           ></input>
         </div>
