@@ -7,7 +7,8 @@ const ActiveGameSection = ({
   currentTileData,
   tiles,
   onSpin,
-  onGameEnd
+  onGameEnd,
+  enteringPresentCode
 }) => {
   const { desc, points, name } = currentTileData;
   return (
@@ -21,6 +22,13 @@ const ActiveGameSection = ({
           Score: <span className="primary-title">{currentPoints}</span>
         </h3>
       </div>
+      <button
+        className="present-button button-control button-control--alt"
+        onClick={() => enteringPresentCode()}
+      >
+        <span role="img" aria-label="present">🎁
+        </span>
+      </button>
       <section className="game__outcome">
         <h3 className="primary-title">{name}</h3>
         <p>{desc}</p>

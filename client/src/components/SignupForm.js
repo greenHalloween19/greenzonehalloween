@@ -31,14 +31,23 @@ const SignupForm = ({ onFormSubmitted }) => {
             type="text"
             onChange={e => setUsername(e.target.value)}
             value={userName}
-            aria-label="Enter Username"
+            aria-labelledby="Enter Username"
             placeholder="Enter a username"
           ></input>
+          {submissionError && (
+            <div className="form__space--top">
+              <label className="error-label">
+                {submissionError}
+              </label>
+            </div>
+          )}
         </div>
 
         <div className="input__container">
           <label className="signup-label">Select a character:</label>
-          <label className="signup-label--small game__header">{selectedCharacter.name}</label>
+          <label className="signup-label--small game__header">
+            {selectedCharacter.name}
+          </label>
           <div className="characters">
             {CHARACTER_LIST.map(({ id, name, img }) => (
               <label className="character__container" key={id}>
@@ -76,11 +85,6 @@ const SignupForm = ({ onFormSubmitted }) => {
             value="Submit"
           ></input>
         </div>
-        {submissionError && (
-          <label className="error-label form__space--bottom">
-            {submissionError}
-          </label>
-        )}
       </form>
     </section>
   );

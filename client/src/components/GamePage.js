@@ -6,6 +6,11 @@ import WelcomeSection from './WelcomeSection';
 import ActiveGameSection from './ActiveGameSection';
 import ResultsSection from './ResultsSection';
 import SpinnerOverlay from './SpinnerOverlay';
+import PresentCodeOverlay from './PresentCodeOverlay';
+
+
+const PRESENT_CODE_LIST = ['hbc3', 'bba4', 'tic7', 'bbg1', 'app2', 'mch3', 'aaa4', 'ddd7', 'asd5', 'bca9'];
+const LIST_OF_PRESENTS = [10000, 9000, 8000, 7000, 6000, 5000, 4000, 3000, -5000, -4000];
 
 const GamePage = () => {
   // TODO: Refactor gamestate into one object and useReducer to manage it
@@ -21,12 +26,43 @@ const GamePage = () => {
   const [isTheVoidPath, setVoidPath] = useState(null);
   const [scorePostingError, setScorePostingError] = useState('');
   const [character, setCharacter] = useState(null);
+  const [isEnteringPresentCode, setEnteringPresentCode] = useState(false);
+  const [listOfPresents, setListOfPresents] = useState([]);
+  const [presentCodes, setPresentCodes] = useState(PRESENT_CODE_LIST);
+  const [listOfAvailablePresents, setListOfAvailablePresents] = useState(LIST_OF_PRESENTS);
+  const [presentErrorLabel, setPresentErrorLabel] = useState('');
   const [scores, loading, error, updateScores] = useGetHighscores();
 
   const userInfoSubmitted = ([username, character]) => {
     setGameState(2);
     setCurrentUser(username);
     setCharacter(character);
+  };
+
+  const enteringPresentCode = () => {
+    setEnteringPresentCode(true);
+  };
+
+  const presentOverlayClosed = () => {
+    setEnteringPresentCode(false);
+  };
+
+  const presentCodeEntered = presentCode => {
+    setPresentErrorLabel('');
+    if (presentCodes.length > 0) {
+      const letPresentCodeLoc = presentCodes.indexOf(presentCode);
+      if (letPresentCodeLoc > -1) {
+        setPresentCodes(presentCodes.filter(code => code !== presentCode));
+        const present = listOfAvailablePresents[Math.floor(Math.random() * listOfPresents.length) + 1];
+        setListOfAvailablePresents(listOfPresents.filter(presentVal => presentVal !== present));
+        setListOfPresents([...listOfPresents, present]);
+        presentOverlayClosed();
+      } else {
+        setPresentErrorLabel('Invalid Code Entered.');
+      }
+    } else {
+      setPresentErrorLabel('You have already found all of the presents!')
+    }
   };
 
   // Really need to refactor this.
@@ -145,6 +181,7 @@ const GamePage = () => {
           onSpin={() => spinTheSpinner()}
           onGameEnd={() => endTheGame()}
           currentPoints={currentPoints}
+          enteringPresentCode={() => enteringPresentCode()}
         ></ActiveGameSection>
       )}
       {gameState === 4 && (
@@ -169,6 +206,23 @@ const GamePage = () => {
           currentTileNumber={currentTileNumber}
           character={character}
         ></SpinnerOverlay>
+      )}
+      {(isSpinning || isConfirmingSpin) && (
+        <SpinnerOverlay
+          lastSpinnedNumber={lastSpinnedNumber}
+          onSpinConfirmed={() => setConfirmingSpin(false)}
+          isSpinning={isSpinning}
+          isConfirmingSpin={isConfirmingSpin}
+          currentTileNumber={currentTileNumber}
+          character={character}
+        ></SpinnerOverlay>
+      )}
+      {isEnteringPresentCode && (
+        <PresentCodeOverlay
+          submitPresentCode={code => presentCodeEntered(code)}
+          closePresentOverlay={() => presentOverlayClosed()}
+          presentErrorLabel={presentErrorLabel}
+        ></PresentCodeOverlay>
       )}
     </div>
   );
