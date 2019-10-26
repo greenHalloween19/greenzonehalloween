@@ -44,7 +44,7 @@ const SignupForm = ({ onFormSubmitted }) => {
               <label className="character__container" key={id}>
                 <input
                   type="radio"
-                  name="site_name"
+                  name="character_name"
                   value={id}
                   checked={selectedCharacter.id === id}
                   onChange={e =>
