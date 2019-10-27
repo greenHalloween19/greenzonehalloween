@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 const PRESENT_CODE_LIST = ['hbc3', 'bba4', 'tic7', 'bbg1', 'app2', 'mch3', 'aaa4', 'ddd7', 'asd5', 'bca9'];
-const LIST_OF_PRESENTS = [10000, 9000, 8000, 7000, 6000, 5000, 4000, 3000, -5000, -4000];
+const LIST_OF_PRESENTS = [5000, 4000, 3000, 2000, 1000, 500, 400, 300, -1000, -500];
 
 const usePresents = () => {
   const [isEnteringPresentCode, setEnteringPresentCode] = useState(false);

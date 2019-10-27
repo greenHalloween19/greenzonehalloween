@@ -23,6 +23,8 @@ const GamePage = () => {
   const [loadingResult, setLoadingResult] = useState(false);
   const [isTheVoidPath, setVoidPath] = useState(null);
   const [scorePostingError, setScorePostingError] = useState('');
+  const [currentArea, setCurrentArea] = useState('');
+  const [possibleTilesList, setPossibleTilesList] = useState(tiles);
   const [character, setCharacter] = useState(null);
 
   const [scores, loading, error, updateScores] = useGetHighscores();
@@ -60,23 +62,55 @@ const GamePage = () => {
       nextTile += 21;
     }
 
-    if (nextTile < tiles.totalNumberOfTiles) {
+    if (nextTile < possibleTilesList.totalNumberOfTiles) {
       setSpinnedNumber(spinnedNumber);
       setCurrentTileNumber(nextTile);
     } else {
-      setSpinnedNumber(tiles.totalNumberOfTiles - currentTileNumber);
-      setCurrentTileNumber(tiles.totalNumberOfTiles);
+      setSpinnedNumber(possibleTilesList.totalNumberOfTiles - currentTileNumber);
+      setCurrentTileNumber(possibleTilesList.totalNumberOfTiles);
     }
     let area = '';
-    if (currentTileNumber <= 50) {
-      area = 'example-area-options';
+    if (nextTile <= 16) {
+      area = 'Graveyard';
+    } else if ((nextTile >= 17) & (nextTile <= 20)) {
+      area = 'Ring of Holiday Trees';
+    } else if ((nextTile >= 21) & (nextTile <= 30)) {
+      area = 'Vortex to Christmas Land';
+    } else if ((nextTile >= 31) & (nextTile <= 39)) {
+      area = 'Christmas Town';
+    } else if ((nextTile >= 40) & (nextTile <= 50)) {
+      area = 'Christmas Preparation Zone';
+    } else if ((nextTile >= 51) & (nextTile <= 66)) {
+      area = 'Halloween Town';
+    } else if ((nextTile >= 67) & (nextTile <= 72)) {
+      area = "Jack's House";
+      // Add Sally's lab here! (73-88)
+    } else if ((nextTile >= 73) & (nextTile <= 95)) {
+      area = "Finkelstein's Castle";
+    } else if ((nextTile >= 89) & (nextTile <= 95)) {
+      area = "Oogie Boogie's Lair";
+    } else if ((nextTile >= 96) & (nextTile <= 100)) {
+      area = 'Halloween Town';
+    } else if ((nextTile >= 101) & (nextTile <= 111)) {
+      area = 'Creepy Christmas Village';
+    } else if (nextTile >= 112) {
+      area = 'End Space';
     }
-    if (currentTileNumber >= 51) {
-      area = 'example-area-options2';
+
+    const tileIndex = Math.floor(Math.random() * possibleTilesList[area].length);
+    let newTileArrForArea = possibleTilesList[area].filter((_tile, i) => {
+      return i !== tileIndex
+    });
+
+    if (newTileArrForArea.length === 0) {
+      newTileArrForArea = tiles[area];
     }
-    const tileIndex = Math.floor(Math.random() * tiles[area].length);
-    setCurrentTileData(tiles[area][tileIndex]);
-    setCurrentPoints(currentPoints + tiles[area][tileIndex].points);
+  
+    const newTileListData = {...possibleTilesList, [area]: newTileArrForArea};
+    setCurrentTileData(possibleTilesList[area][tileIndex]);
+    setPossibleTilesList(newTileListData);
+    setCurrentPoints(currentPoints + possibleTilesList[area][tileIndex].points);
+    setCurrentArea(area);
     setTimeout(() => {
       setSpinning(false);
       setConfirmingSpin(true);
@@ -164,13 +198,14 @@ const GamePage = () => {
           currentUser={currentUser}
           currentTileNumber={currentTileNumber}
           currentTileData={currentTileData}
-          tiles={tiles}
+          tiles={possibleTilesList}
           listOfPresents={listOfPresents}
           onSpin={() => spinTheSpinner()}
           onGameEnd={() => endTheGame()}
           openPresents={() => openingPresents()}
           currentPoints={currentPoints}
           enteringPresentCode={() => enteringPresentCode()}
+          currentAreaName={currentArea}
         ></ActiveGameSection>
       )}
       {gameState === 4 && (

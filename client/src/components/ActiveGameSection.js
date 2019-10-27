@@ -10,9 +10,10 @@ const ActiveGameSection = ({
   onGameEnd,
   listOfPresents,
   enteringPresentCode,
-  openPresents
+  openPresents,
+  currentAreaName
 }) => {
-  const { desc, points, name } = currentTileData;
+  const { desc, points } = currentTileData;
   return (
     <section className="game__section game__section--playing">
       <div>
@@ -24,23 +25,33 @@ const ActiveGameSection = ({
           Score: <span className="primary-title">{currentPoints}</span>
         </h3>
         <h3>
-          Presents: <span className="primary-title">{listOfPresents.length}</span>
+          Presents:{' '}
+          <span className="primary-title">{listOfPresents.length}</span>
         </h3>
       </div>
       <button
         className="present-button button-control"
         onClick={() => enteringPresentCode()}
       >
-        <span role="img" aria-label="present">🎁
+        <span role="img" aria-label="present">
+          🎁
         </span>
       </button>
       <section className="game__outcome">
-        <h3 className="primary-title">{name}</h3>
+        <h3 className="primary-title">{currentAreaName}</h3>
         <p>{desc}</p>
-        <div className={points > 0 ? 'gain' : 'lose'}>
-          <p>You {points > 0 ? 'gained' : 'lost'}:</p>
-          <p> {points} pts!</p>
-        </div>
+        {currentTileNumber < tiles.totalNumberOfTiles && (
+          <div className={points > 0 ? 'gain' : 'lose'}>
+            <p>You {points > 0 ? 'gained' : 'lost'}:</p>
+            <p> {points} pts!</p>
+          </div>
+        )}
+        {currentTileNumber >= tiles.totalNumberOfTiles &&
+          listOfPresents.length > 0 && (
+            <div>
+              <p>Now it's time to open the presents from us to you!</p>
+            </div>
+          )}
       </section>
       {currentTileNumber < tiles.totalNumberOfTiles && (
         <input
@@ -50,22 +61,24 @@ const ActiveGameSection = ({
           value="Spin Again"
         ></input>
       )}
-      {currentTileNumber >= tiles.totalNumberOfTiles && listOfPresents.length <= 0 && (
-        <input
-          onClick={() => onGameEnd()}
-          type="button"
-          className="roll-button button-control"
-          value="End Game"
-        ></input>
-      )}
-      {currentTileNumber >= tiles.totalNumberOfTiles && listOfPresents.length > 0 && (
-        <input
-          onClick={() => openPresents()}
-          type="button"
-          className="roll-button button-control"
-          value="Open Presents"
-        ></input>
-      )}
+      {currentTileNumber >= tiles.totalNumberOfTiles &&
+        listOfPresents.length <= 0 && (
+          <input
+            onClick={() => onGameEnd()}
+            type="button"
+            className="roll-button button-control"
+            value="End Game"
+          ></input>
+        )}
+      {currentTileNumber >= tiles.totalNumberOfTiles &&
+        listOfPresents.length > 0 && (
+          <input
+            onClick={() => openPresents()}
+            type="button"
+            className="roll-button button-control"
+            value="Open Presents"
+          ></input>
+        )}
     </section>
   );
 };
