@@ -299,6 +299,10 @@ img.results__character {
   top: 15px;
   right: 20px;
   background-color: black;
+  border: none;
+  > span {
+    font-size: 25px;
+  }
 }
 
 .presents-list {

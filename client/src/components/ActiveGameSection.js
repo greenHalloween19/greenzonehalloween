@@ -28,7 +28,7 @@ const ActiveGameSection = ({
         </h3>
       </div>
       <button
-        className="present-button button-control button-control--alt"
+        className="present-button button-control"
         onClick={() => enteringPresentCode()}
       >
         <span role="img" aria-label="present">🎁
