@@ -7,6 +7,7 @@ const usePresents = () => {
   const [isEnteringPresentCode, setEnteringPresentCode] = useState(false);
   const [listOfPresents, setListOfPresents] = useState([]);
   const [presentCodes, setPresentCodes] = useState(PRESENT_CODE_LIST);
+  const [isOpeningPresents, setIsOpeningPresents] = useState(false);
   const [listOfAvailablePresents, setListOfAvailablePresents] = useState(
     LIST_OF_PRESENTS
   );
@@ -20,6 +21,15 @@ const usePresents = () => {
     setEnteringPresentCode(false);
   };
 
+  const openingPresents = () => {
+    setIsOpeningPresents(true);
+  }
+  const finishedOpeningPresents = () => {
+    setListOfPresents([]);
+    setIsOpeningPresents(false);
+  }
+
+
   const presentCodeEntered = presentCode => {
     setPresentErrorLabel('');
     if (presentCodes.length > 0) {
@@ -28,12 +38,12 @@ const usePresents = () => {
         setPresentCodes(presentCodes.filter(code => code !== presentCode));
         const present =
           listOfAvailablePresents[
-            Math.floor(Math.random() * listOfPresents.length) + 1
+            Math.floor(Math.random() * listOfAvailablePresents.length)
           ];
         setListOfAvailablePresents(
-          listOfPresents.filter(presentVal => presentVal !== present)
+          listOfAvailablePresents.filter(presentVal => presentVal !== present)
         );
-        setListOfPresents([...listOfPresents, present]);
+        setListOfPresents([...listOfPresents, { value: present, opened: false }]);
         presentOverlayClosed();
       } else {
         setPresentErrorLabel('Invalid Code Entered.');
@@ -48,11 +58,14 @@ const usePresents = () => {
       listOfPresents,
       presentCodes,
       listOfAvailablePresents,
-      presentErrorLabel
+      presentErrorLabel,
+      isOpeningPresents
     },
     enteringPresentCode,
     presentOverlayClosed,
-    presentCodeEntered
+    presentCodeEntered,
+    openingPresents,
+    finishedOpeningPresents
   ];
 };
 

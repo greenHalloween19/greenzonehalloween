@@ -9,7 +9,8 @@ const ActiveGameSection = ({
   onSpin,
   onGameEnd,
   listOfPresents,
-  enteringPresentCode
+  enteringPresentCode,
+  openPresents
 }) => {
   const { desc, points, name } = currentTileData;
   return (
@@ -49,12 +50,20 @@ const ActiveGameSection = ({
           value="Spin Again"
         ></input>
       )}
-      {currentTileNumber >= tiles.totalNumberOfTiles && (
+      {currentTileNumber >= tiles.totalNumberOfTiles && listOfPresents.length <= 0 && (
         <input
           onClick={() => onGameEnd()}
           type="button"
           className="roll-button button-control"
           value="End Game"
+        ></input>
+      )}
+      {currentTileNumber >= tiles.totalNumberOfTiles && listOfPresents.length > 0 && (
+        <input
+          onClick={() => openPresents()}
+          type="button"
+          className="roll-button button-control"
+          value="Open Presents"
         ></input>
       )}
     </section>

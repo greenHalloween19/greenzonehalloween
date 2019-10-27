@@ -8,6 +8,7 @@ import ResultsSection from './ResultsSection';
 import SpinnerOverlay from './SpinnerOverlay';
 import PresentCodeOverlay from './PresentCodeOverlay';
 import usePresents from '../hooks/usePresents';
+import PresentOpenOverlay from './PresentOpenOverlay';
 
 const GamePage = () => {
   // TODO: Refactor gamestate into one object and useReducer to manage it
@@ -30,11 +31,14 @@ const GamePage = () => {
     {
       isEnteringPresentCode,
       presentErrorLabel,
-      listOfPresents
+      listOfPresents,
+      isOpeningPresents
     },
     enteringPresentCode,
     presentOverlayClosed,
-    presentCodeEntered
+    presentCodeEntered,
+    openingPresents,
+    finishedOpeningPresents
   ] = usePresents();
 
   const userInfoSubmitted = ([username, character]) => {
@@ -129,7 +133,12 @@ const GamePage = () => {
   const endTheGame = () => {
     setLoadingResult(true);
     setGameState(4);
-    postScore();
+    // postScore();
+  };
+
+  const finishedPresents = score => {
+    setCurrentPoints(currentPoints + score);
+    finishedOpeningPresents();
   };
 
   return (
@@ -159,6 +168,7 @@ const GamePage = () => {
           listOfPresents={listOfPresents}
           onSpin={() => spinTheSpinner()}
           onGameEnd={() => endTheGame()}
+          openPresents={() => openingPresents()}
           currentPoints={currentPoints}
           enteringPresentCode={() => enteringPresentCode()}
         ></ActiveGameSection>
@@ -202,6 +212,12 @@ const GamePage = () => {
           closePresentOverlay={() => presentOverlayClosed()}
           presentErrorLabel={presentErrorLabel}
         ></PresentCodeOverlay>
+      )}
+      {isOpeningPresents && (
+        <PresentOpenOverlay
+          listOfPresents={listOfPresents}
+          finishedOpeningPresents={score => finishedPresents(score)}
+        ></PresentOpenOverlay>
       )}
     </div>
   );
