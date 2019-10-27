@@ -315,3 +315,12 @@ img.results__character {
     }
   }
 }
+
+.alignment-label {
+  &--good {
+    color: lime;
+  }
+  &--bad {
+    color: red;
+  }
+}

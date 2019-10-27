@@ -133,7 +133,7 @@ const GamePage = () => {
   const endTheGame = () => {
     setLoadingResult(true);
     setGameState(4);
-    // postScore();
+    postScore();
   };
 
   const finishedPresents = score => {

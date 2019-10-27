@@ -40,17 +40,17 @@ const PresentOpenOverlay = ({ listOfPresents, finishedOpeningPresents }) => {
           if (present.opened) {
             return (
               <div className="present-tile present--opened">
+                <p>{present.value > 0 ? 'Good:' : 'Evil:'}</p>
                 <p
                   className={
-                    'alignment-label' +
+                    'alignment-label ' +
                     (present.value > 0
                       ? 'alignment-label--good'
                       : 'alignment-label--bad')
                   }
                 >
-                  {present.value > 0 ? 'Good:' : 'Evil:'}
+                  {present.value}
                 </p>
-                <p>{present.value}</p>
               </div>
             );
           }
