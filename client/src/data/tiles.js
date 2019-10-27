@@ -245,7 +245,7 @@ export const tiles = {
     {
       icon: Jack,
       desc:
-        'There\'s frost on every window, you can\'t believe your eyes! And in your bones you feel the warmth that\’s coming from inside',
+        'There\'s frost on every window, you can\'t believe your eyes! And in your bones you feel the warmth that\'s coming from inside',
       points: 215
     },
     {

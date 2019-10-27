@@ -10,9 +10,10 @@ const ActiveGameSection = ({
   onGameEnd,
   listOfPresents,
   enteringPresentCode,
-  openPresents
+  openPresents,
+  currentAreaName
 }) => {
-  const { desc, points, name } = currentTileData;
+  const { desc, points } = currentTileData;
   return (
     <section className="game__section game__section--playing">
       <div>
@@ -35,7 +36,7 @@ const ActiveGameSection = ({
         </span>
       </button>
       <section className="game__outcome">
-        <h3 className="primary-title">{name}</h3>
+        <h3 className="primary-title">{currentAreaName}</h3>
         <p>{desc}</p>
         <div className={points > 0 ? 'gain' : 'lose'}>
           <p>You {points > 0 ? 'gained' : 'lost'}:</p>
