@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 
 const SpinnerOverlay = ({ isSpinning, isConfirmingSpin, onSpinConfirmed, lastSpinnedNumber, currentTileNumber, character }) => (
-  <section className="rolling-overlay">
+  <section className="rolling-overlay game__overlay">
     {isSpinning && (
       <Fragment>
         <div>

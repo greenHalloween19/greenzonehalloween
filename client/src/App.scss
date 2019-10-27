@@ -86,6 +86,13 @@
   padding: 15px;
   line-height: 5px;
   cursor: pointer;
+  &--alt {
+    color: lime;
+    &:focus,
+    &:hover {
+      background-color: orange;
+    }
+  }
   &:focus,
   &:hover {
     background-color: lime;
@@ -98,6 +105,19 @@
   height: 100vh;
   text-align: center;
   overflow: auto;
+  &__overlay {
+    position: absolute;
+    height: 100vh;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 1);
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    overflow: auto;
+  }
   &__header {
     color: lime;
   }
@@ -185,17 +205,6 @@
 }
 
 .rolling-overlay {
-  position: absolute;
-  height: 100vh;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: rgba(0, 0, 0, 0.9);
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  overflow: auto;
   &__img {
     height: 75px;
     animation: rotation 2s infinite linear;
@@ -277,6 +286,45 @@
   margin-bottom: 25px;
 }
 
+.form__space--right {
+  margin-right: 15px;
+}
+
 img.results__character {
   height: 75px;
+}
+
+.present-button {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  background-color: black;
+  border: none;
+  > span {
+    font-size: 25px;
+  }
+}
+
+.presents-list {
+  display: grid;
+  grid-template-columns: repeat(2, 50%);
+  grid-template-rows: 80px;
+  .present-tile {
+    .present-tile__btn {
+      background-color: transparent;
+      border: none;
+      > span {
+        font-size: 50px;
+      }
+    }
+  }
+}
+
+.alignment-label {
+  &--good {
+    color: lime;
+  }
+  &--bad {
+    color: red;
+  }
 }

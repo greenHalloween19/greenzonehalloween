@@ -6,6 +6,9 @@ import WelcomeSection from './WelcomeSection';
 import ActiveGameSection from './ActiveGameSection';
 import ResultsSection from './ResultsSection';
 import SpinnerOverlay from './SpinnerOverlay';
+import PresentCodeOverlay from './PresentCodeOverlay';
+import usePresents from '../hooks/usePresents';
+import PresentOpenOverlay from './PresentOpenOverlay';
 
 const GamePage = () => {
   // TODO: Refactor gamestate into one object and useReducer to manage it
@@ -21,7 +24,22 @@ const GamePage = () => {
   const [isTheVoidPath, setVoidPath] = useState(null);
   const [scorePostingError, setScorePostingError] = useState('');
   const [character, setCharacter] = useState(null);
+
   const [scores, loading, error, updateScores] = useGetHighscores();
+
+  const [
+    {
+      isEnteringPresentCode,
+      presentErrorLabel,
+      listOfPresents,
+      isOpeningPresents
+    },
+    enteringPresentCode,
+    presentOverlayClosed,
+    presentCodeEntered,
+    openingPresents,
+    finishedOpeningPresents
+  ] = usePresents();
 
   const userInfoSubmitted = ([username, character]) => {
     setGameState(2);
@@ -118,6 +136,11 @@ const GamePage = () => {
     postScore();
   };
 
+  const finishedPresents = score => {
+    setCurrentPoints(currentPoints + score);
+    finishedOpeningPresents();
+  };
+
   return (
     <div className="game">
       {/* Sign Up */}
@@ -142,9 +165,12 @@ const GamePage = () => {
           currentTileNumber={currentTileNumber}
           currentTileData={currentTileData}
           tiles={tiles}
+          listOfPresents={listOfPresents}
           onSpin={() => spinTheSpinner()}
           onGameEnd={() => endTheGame()}
+          openPresents={() => openingPresents()}
           currentPoints={currentPoints}
+          enteringPresentCode={() => enteringPresentCode()}
         ></ActiveGameSection>
       )}
       {gameState === 4 && (
@@ -169,6 +195,29 @@ const GamePage = () => {
           currentTileNumber={currentTileNumber}
           character={character}
         ></SpinnerOverlay>
+      )}
+      {(isSpinning || isConfirmingSpin) && (
+        <SpinnerOverlay
+          lastSpinnedNumber={lastSpinnedNumber}
+          onSpinConfirmed={() => setConfirmingSpin(false)}
+          isSpinning={isSpinning}
+          isConfirmingSpin={isConfirmingSpin}
+          currentTileNumber={currentTileNumber}
+          character={character}
+        ></SpinnerOverlay>
+      )}
+      {isEnteringPresentCode && (
+        <PresentCodeOverlay
+          submitPresentCode={code => presentCodeEntered(code)}
+          closePresentOverlay={() => presentOverlayClosed()}
+          presentErrorLabel={presentErrorLabel}
+        ></PresentCodeOverlay>
+      )}
+      {isOpeningPresents && (
+        <PresentOpenOverlay
+          listOfPresents={listOfPresents}
+          finishedOpeningPresents={score => finishedPresents(score)}
+        ></PresentOpenOverlay>
       )}
     </div>
   );

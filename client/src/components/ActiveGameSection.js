@@ -7,7 +7,10 @@ const ActiveGameSection = ({
   currentTileData,
   tiles,
   onSpin,
-  onGameEnd
+  onGameEnd,
+  listOfPresents,
+  enteringPresentCode,
+  openPresents
 }) => {
   const { desc, points, name } = currentTileData;
   return (
@@ -20,7 +23,17 @@ const ActiveGameSection = ({
         <h3>
           Score: <span className="primary-title">{currentPoints}</span>
         </h3>
+        <h3>
+          Presents: <span className="primary-title">{listOfPresents.length}</span>
+        </h3>
       </div>
+      <button
+        className="present-button button-control"
+        onClick={() => enteringPresentCode()}
+      >
+        <span role="img" aria-label="present">🎁
+        </span>
+      </button>
       <section className="game__outcome">
         <h3 className="primary-title">{name}</h3>
         <p>{desc}</p>
@@ -37,12 +50,20 @@ const ActiveGameSection = ({
           value="Spin Again"
         ></input>
       )}
-      {currentTileNumber >= tiles.totalNumberOfTiles && (
+      {currentTileNumber >= tiles.totalNumberOfTiles && listOfPresents.length <= 0 && (
         <input
           onClick={() => onGameEnd()}
           type="button"
           className="roll-button button-control"
           value="End Game"
+        ></input>
+      )}
+      {currentTileNumber >= tiles.totalNumberOfTiles && listOfPresents.length > 0 && (
+        <input
+          onClick={() => openPresents()}
+          type="button"
+          className="roll-button button-control"
+          value="Open Presents"
         ></input>
       )}
     </section>
