@@ -35,47 +35,52 @@ const PresentOpenOverlay = ({ listOfPresents, finishedOpeningPresents }) => {
     <section className="present-overlay game__overlay">
       <h1>Open Presents:</h1>
       <h2 className="game__header">{currentPresentScore}</h2>
-      {currentListOfPresents.map((present, i) => {
-        if (present.opened) {
+      <div className="presents-list">
+        {currentListOfPresents.map((present, i) => {
+          if (present.opened) {
+            return (
+              <div className="present-tile present--opened">
+                <p
+                  className={
+                    'alignment-label' +
+                    (present.value > 0
+                      ? 'alignment-label--good'
+                      : 'alignment-label--bad')
+                  }
+                >
+                  {present.value > 0 ? 'Good:' : 'Evil:'}
+                </p>
+                <p>{present.value}</p>
+              </div>
+            );
+          }
           return (
-            <div className="present--opened">
-              <p
-                className={
-                  'alignment-label' +
-                  (present.value > 0
-                    ? 'alignment-label--good'
-                    : 'alignment-label--bad')
-                }
+            <div className="present-tile present--closed">
+              <button
+                className="present-tile__btn"
+                key={i}
+                onClick={() => openPresent(i)}
               >
-                {present.value > 0 ? 'Good:' : 'Evil:'}
-              </p>
-              <p>{present.value}</p>
+                <span role="img" aria-label="present">
+                  🎁
+                </span>
+              </button>
             </div>
           );
-        }
-        return (
-          <button
-            className="present--closed"
-            key={i}
-            onClick={() => openPresent(i)}
-          >
-            <h1>{present.value}</h1>
-            <h1>{present.opened}</h1>
-          </button>
-        );
-      })}
+        })}
+      </div>
       <div>
+        {presentsError && (
+          <div className="form__space--bottom">
+            <label className="error-label">{presentsError}</label>
+          </div>
+        )}
         <input
           className="button-control form__space--top form__space--bottom"
           type="button"
           value="Close"
           onClick={() => finishedOpening()}
         ></input>
-        {presentsError && (
-          <div className="form__space--top">
-            <label className="error-label">{presentsError}</label>
-          </div>
-        )}
       </div>
     </section>
   );

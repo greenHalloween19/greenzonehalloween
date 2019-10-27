@@ -300,3 +300,18 @@ img.results__character {
   right: 20px;
   background-color: black;
 }
+
+.presents-list {
+  display: grid;
+  grid-template-columns: repeat(2, 50%);
+  grid-template-rows: 80px;
+  .present-tile {
+    .present-tile__btn {
+      background-color: transparent;
+      border: none;
+      > span {
+        font-size: 50px;
+      }
+    }
+  }
+}
