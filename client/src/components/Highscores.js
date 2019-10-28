@@ -6,7 +6,6 @@ const Highscores = () => {
   const [scores, , loading, error, , updateScores] = useGetHighscores();
 
   useEffect(() => {
-    console.log('wat');
     updateScores();
     const updateInterval = setInterval(async () => {
       updateScores();

@@ -4,6 +4,7 @@ import { useGetHighscores } from '../hooks/getHighscores';
 import { CHARACTER_LIST } from '../data/characters';
 
 const ResultsSection = ({ id }) => {
+  // TODO: kinda weird to  have scores be multi or singular, maybe refactor to a different param later?
   const [
     scores,
     position,
@@ -19,8 +20,9 @@ const ResultsSection = ({ id }) => {
   }, [id]);
 
   const imageTile = () => {
-    const character = CHARACTER_LIST.find(character => character.id === scores.characterId);
-    console.log(scores)
+    const character = CHARACTER_LIST.find(
+      character => character.id === scores.characterId
+    );
     return (
       <img
         className="results__character"
@@ -32,38 +34,45 @@ const ResultsSection = ({ id }) => {
 
   return (
     <div className="game">
-    <section className="game__section game__section--playing">
-      {loading && <h2>Loading...</h2>}
-      {!loading && scores && scores.length > 1 && (
-        <h2>An Error Occured when fetching by ID.</h2>
-      )}
-      {!loading && scores && scores.length !== 0 &&  (
-        <Fragment>
-          <h1 className="primary-title">Game Complete!</h1>
-          <div>
+      <section className="game__section game__section--playing">
+        {loading && <h2>Loading...</h2>}
+        {!loading && scores && scores.length > 1 && (
+          <p>An Error Occured when fetching by ID.</p>
+        )}
+        {!loading && !scores && (
+          <p>An Error Occured when fetching by ID.</p>
+        )}
+        {!loading && scores && scores.length !== 0 && (
+          <Fragment>
+            <h1 className="primary-title">Game Complete!</h1>
             <div>
-              {scores && imageTile()}
-              {scores && <p className="primary-title">{scores.name}</p>}
-            </div>
-            <p>
-              Score: <span className="primary-title">{scores && scores.score}</span>
-            </p>
-            {(!error || positionError) && (
+              <div>
+                {scores && imageTile()}
+                {scores && <p className="primary-title">{scores.name}</p>}
+              </div>
               <p>
-                Position # <span className="primary-title">{position}</span>
+                Score:{' '}
+                <span className="primary-title">{scores && scores.score}</span>
               </p>
-            )}
-            {error && <p>{error || positionError}</p>}
-          </div>
-          <div>
-            <LinkButton label="Home Screen" navUrl="/"></LinkButton>
-            <div className="button-gap-top">
-              <LinkButton label="High Scores" navUrl="/highscores"></LinkButton>
+              {(!error || positionError) && (
+                <p>
+                  Position # <span className="primary-title">{position}</span>
+                </p>
+              )}
+              {error && <p>{error || positionError}</p>}
             </div>
-          </div>
-        </Fragment>
-      )}
-    </section>
+            <div>
+              <LinkButton label="Home Screen" navUrl="/"></LinkButton>
+              <div className="button-gap-top">
+                <LinkButton
+                  label="High Scores"
+                  navUrl="/highscores"
+                ></LinkButton>
+              </div>
+            </div>
+          </Fragment>
+        )}
+      </section>
     </div>
   );
 };

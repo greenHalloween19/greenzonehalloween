@@ -26,7 +26,6 @@ export const useGetHighscores = () => {
       if (scoresData) {
         if (id) {
           setScores(scoresData.find(score => score._id === id));
-          console.log(scoresData.find(score => score._id === id));
           setPosition(getPosition(scoresData, id));
         } else {
           setScores(scoresData.slice(0, highScoresToGrab));
