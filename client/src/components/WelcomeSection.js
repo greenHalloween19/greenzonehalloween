@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import Jack from '../assets/Jack.svg';
-import Sally from '../assets/Sally.svg';
+import Grave from '../assets/grave.png';
+import Vortex from '../assets/vortex.png';
 
 const WelcomeSection = ({ currentUser, onSpin }) => {
   const [isVoidSelected, setIsVoidSelected] = useState('true');
@@ -10,7 +10,6 @@ const WelcomeSection = ({ currentUser, onSpin }) => {
     onSpin(isVoidSelected === 'true');
   };
   return (
-    // TODO: Replace Jack with Grave Stone / Sally with Void Symbol.
     <section className="game__form">
       <h1 className="game__header">{currentUser}</h1>
       <h2>Welcome!</h2>
@@ -34,7 +33,7 @@ const WelcomeSection = ({ currentUser, onSpin }) => {
                 (isVoidSelected === 'true' ? ' path-tile--selected' : '')
               }
             >
-              <img className="path-tile__img" src={Sally} alt="The Void"></img>
+              <img className="path-tile__img" src={Vortex} alt="The Void"></img>
             </div>
           </label>
           <label>
@@ -53,7 +52,7 @@ const WelcomeSection = ({ currentUser, onSpin }) => {
             >
               <img
                 className="path-tile__img"
-                src={Jack}
+                src={Grave}
                 alt="Grave Stone"
               ></img>
             </div>
