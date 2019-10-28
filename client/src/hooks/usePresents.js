@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-const PRESENT_CODE_LIST = ['hbc3', 'bba4', 'tic7', 'bbg1', 'app2', 'mch3', 'aaa4', 'ddd7', 'asd5', 'bca9'];
+const PRESENT_CODE_LIST = ['MerryHalloween19', 'SnakeEyes11', 'FrogsBreath20', 'WhatsThis85', 'PumpkinKing50', 'MakingXmas22', 'SandyClaws63', 'Snowball57', 'Nightmare99', 'ZeroRulez00'];
 const LIST_OF_PRESENTS = [5000, 4000, 3000, 2000, 1000, 500, 400, 300, -1000, -500];
 
 const usePresents = () => {
