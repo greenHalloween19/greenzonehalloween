@@ -20,11 +20,11 @@ const SignupForm = ({ onFormSubmitted }) => {
   };
   return (
     <section className="game__form">
-        <div className="back_header">
-          <Link className=" game__back" to="/">
-              HOME
-          </Link>
-        </div>
+      <Link className=" game__back" to="/">
+        <span role="img" aria-label="home">
+          🏠
+        </span>
+      </Link>
 
       <h1 className="game__header">Sign up</h1>
       <form onSubmit={e => onSubmit(e)}>
@@ -43,9 +43,7 @@ const SignupForm = ({ onFormSubmitted }) => {
           ></input>
           {submissionError && (
             <div className="form__space--top">
-              <label className="error-label">
-                {submissionError}
-              </label>
+              <label className="error-label">{submissionError}</label>
             </div>
           )}
         </div>
