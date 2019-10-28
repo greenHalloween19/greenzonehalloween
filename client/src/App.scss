@@ -214,6 +214,26 @@
   }
 }
 
+.back_header {
+  display: flex;
+  flex-direction: row;
+  .game__back {
+    margin: 5px 0 0 5px;
+    justify-content: flex-start;
+    color: orange;
+    text-decoration: none;
+    height: 20px;
+    border: solid 1px;
+    padding: 15px;
+    line-height: 20px;
+    &:focus,
+    &:hover {
+      background-color: lime;
+    }
+  }
+
+}
+
 @keyframes rotation {
   from {
     transform: rotate(0deg);

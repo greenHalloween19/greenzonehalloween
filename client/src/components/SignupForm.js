@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { CHARACTER_LIST } from '../data/characters';
+import { Link } from '@reach/router';
 
 const SignupForm = ({ onFormSubmitted }) => {
   const [userName, setUsername] = useState('');
@@ -19,6 +20,12 @@ const SignupForm = ({ onFormSubmitted }) => {
   };
   return (
     <section className="game__form">
+        <div className="back_header">
+          <Link className=" game__back" to="/">
+              HOME
+          </Link>
+        </div>
+
       <h1 className="game__header">Sign up</h1>
       <form onSubmit={e => onSubmit(e)}>
         <div className="input__container">

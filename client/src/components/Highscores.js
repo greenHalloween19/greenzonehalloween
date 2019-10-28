@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useGetHighscores } from '../hooks/getHighscores';
+import {Link} from "@reach/router";
 
 const Highscores = () => {
   const [scores, loading, error, updateScores] = useGetHighscores();
@@ -20,6 +21,11 @@ const Highscores = () => {
 
   return (
     <section className="highscores">
+        <div className="back_header">
+            <Link className=" game__back" to="/">
+                HOME
+            </Link>
+        </div>
       <h1 className="highscores__title">High Scores</h1>
       <div className="highscores__content">
         {loading && scores.length === 0 && <div>Loading...</div>}
