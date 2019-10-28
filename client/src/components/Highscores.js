@@ -3,7 +3,7 @@ import { useGetHighscores } from '../hooks/getHighscores';
 import { Link } from '@reach/router';
 
 const Highscores = () => {
-  const [scores, loading, error, updateScores] = useGetHighscores();
+  const [scores, , loading, error, , updateScores] = useGetHighscores();
 
   useEffect(() => {
     console.log('wat');
