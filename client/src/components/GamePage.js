@@ -140,12 +140,18 @@ const GamePage = () => {
         method: 'POST',
         mode: 'same-origin',
         headers: {
+          Accept: 'application/json',
           'Content-Type': 'application/json'
         },
         referrer: 'no-referrer',
-        body: JSON.stringify({ characterId: character.id, name: currentUser, score: currentPoints })
+        body: JSON.stringify({
+          characterId: character.id,
+          name: currentUser,
+          score: currentPoints
+        })
       });
-      navigate(`highscores/${scorePost._id}`);
+      const data = await scorePost.json();
+      navigate(`highscores/${data._id}`);
     } catch (e) {
       console.error(e);
       setScorePostingError('There was an error posting your score!');
@@ -196,15 +202,12 @@ const GamePage = () => {
           currentAreaName={currentArea}
         ></ActiveGameSection>
       )}
-      {gameState === 4 &&
-        (<section className="game__section game__section--playing">
-      {loadingResult && (
-          <h2>Loading...</h2>
+      {gameState === 4 && (
+        <section className="game__section game__section--playing">
+          {loadingResult && <h2>Loading...</h2>}
+          {scorePostingError && <h2>{scorePostingError}</h2>}
+        </section>
       )}
-      {scorePostingError && (
-          <h2>{scorePostingError}</h2>
-      )}
-      </section>)}
       {(isSpinning || isConfirmingSpin) && (
         <SpinnerOverlay
           lastSpinnedNumber={lastSpinnedNumber}
