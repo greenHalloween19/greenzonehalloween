@@ -9,7 +9,7 @@ const App = () => (
   <Router>
     <GamePage path="/play"></GamePage>
     <Highscores path="/highscores"></Highscores>
-    <Home default path="/"></Home>
+    <Home default></Home>
   </Router>
 );
 

@@ -7,6 +7,10 @@
   background-color: black;
   &__title {
     color: lime;
+    font-size: 1em;
+    @media only screen and (min-width: 400px) {
+      font-size: 1.5em
+    }
   }
   &__content {
     color: orange;
@@ -184,7 +188,7 @@
             width: 20px;
             height: 20px;
             background-color: orange;
-            box-shadow: 41px -33px 33px 20px orange;
+            box-shadow: 41px -33px 33px 30px orange;
           }
         }
         &__img {
@@ -213,25 +217,24 @@
     font-size: 2em;
   }
 }
-
-.back_header {
-  display: flex;
-  flex-direction: row;
-  .game__back {
-    margin: 5px 0 0 5px;
-    justify-content: flex-start;
-    color: orange;
-    text-decoration: none;
-    height: 20px;
-    border: solid 1px;
-    padding: 15px;
-    line-height: 20px;
-    &:focus,
-    &:hover {
-      background-color: lime;
-    }
+.game__back {
+  width: 30px;
+  height: 30px;
+  text-decoration: none;
+  position: absolute;
+  top: 6px;
+  right: 20px;
+  border: none;
+  @media only screen and (min-width: 400px) {
+    top: 15px;
   }
-
+  > span {
+    font-size: 25px;
+  }
+  &:focus,
+  &:hover {
+    background-color: lime;
+  }
 }
 
 @keyframes rotation {
