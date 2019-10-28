@@ -9,7 +9,8 @@ const Score = require('../../models/Score');
 router.post(
   '/',
   [
-    check('name', 'Name is required.').isLength({ max: 9 }),
+    check('characterId', 'character ID  is required and needs to be a valid number.').isNumeric(),
+    check('name', 'Name is required.').isString().isLength({ max: 9 }),
     check(
       'score',
       'Score is required and needs to be a valid number.'
@@ -25,6 +26,7 @@ router.post(
 
     try {
       const score = new Score({
+        characterId: req.body.characterId,
         name: req.body.name,
         score: req.body.score
       });

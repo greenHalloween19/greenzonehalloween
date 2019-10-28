@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import SignupForm from './SignupForm';
 import { tiles } from '../data/tiles';
-import { useGetHighscores } from '../hooks/getHighscores';
 import WelcomeSection from './WelcomeSection';
 import ActiveGameSection from './ActiveGameSection';
-import ResultsSection from './ResultsSection';
 import SpinnerOverlay from './SpinnerOverlay';
 import PresentCodeOverlay from './PresentCodeOverlay';
 import usePresents from '../hooks/usePresents';
 import PresentOpenOverlay from './PresentOpenOverlay';
+import { navigate } from '@reach/router';
 
 const GamePage = () => {
   // TODO: Refactor gamestate into one object and useReducer to manage it
@@ -26,8 +25,6 @@ const GamePage = () => {
   const [currentArea, setCurrentArea] = useState('');
   const [possibleTilesList, setPossibleTilesList] = useState(tiles);
   const [character, setCharacter] = useState(null);
-
-  const [scores, loading, error, updateScores] = useGetHighscores();
 
   const [
     {
@@ -66,7 +63,9 @@ const GamePage = () => {
       setSpinnedNumber(spinnedNumber);
       setCurrentTileNumber(nextTile);
     } else {
-      setSpinnedNumber(possibleTilesList.totalNumberOfTiles - currentTileNumber);
+      setSpinnedNumber(
+        possibleTilesList.totalNumberOfTiles - currentTileNumber
+      );
       setCurrentTileNumber(possibleTilesList.totalNumberOfTiles);
     }
     let area = '';
@@ -97,16 +96,18 @@ const GamePage = () => {
       area = 'End Space';
     }
 
-    const tileIndex = Math.floor(Math.random() * possibleTilesList[area].length);
+    const tileIndex = Math.floor(
+      Math.random() * possibleTilesList[area].length
+    );
     let newTileArrForArea = possibleTilesList[area].filter((_tile, i) => {
-      return i !== tileIndex
+      return i !== tileIndex;
     });
 
     if (newTileArrForArea.length === 0) {
       newTileArrForArea = tiles[area];
     }
-  
-    const newTileListData = {...possibleTilesList, [area]: newTileArrForArea};
+
+    const newTileListData = { ...possibleTilesList, [area]: newTileArrForArea };
     setCurrentTileData(possibleTilesList[area][tileIndex]);
     setPossibleTilesList(newTileListData);
     setCurrentPoints(currentPoints + possibleTilesList[area][tileIndex].points);
@@ -139,28 +140,21 @@ const GamePage = () => {
         method: 'POST',
         mode: 'same-origin',
         headers: {
+          Accept: 'application/json',
           'Content-Type': 'application/json'
         },
         referrer: 'no-referrer',
-        body: JSON.stringify({ name: currentUser, score: currentPoints })
+        body: JSON.stringify({
+          characterId: character.id,
+          name: currentUser,
+          score: currentPoints
+        })
       });
-      console.log(scorePost);
-      updateScores(1000);
+      const data = await scorePost.json();
+      navigate(`highscores/${data._id}`);
     } catch (e) {
       console.error(e);
       setScorePostingError('There was an error posting your score!');
-    }
-    setLoadingResult(false);
-  };
-
-  const getPosition = () => {
-    const currentPosition = scores.findIndex(
-      score => score.name === currentUser
-    );
-    if (currentPosition > -1) {
-      return currentPosition + 1;
-    } else {
-      setScorePostingError('Could not get your score position at this time :(');
     }
   };
 
@@ -209,17 +203,10 @@ const GamePage = () => {
         ></ActiveGameSection>
       )}
       {gameState === 4 && (
-        <ResultsSection
-          loadingResult={loadingResult}
-          loadingScores={loading}
-          scores={scores}
-          scorePostingError={scorePostingError}
-          scoreRetrievalError={error}
-          currentPosition={() => getPosition()}
-          currentPoints={currentPoints}
-          character={character}
-          currentUser={currentUser}
-        ></ResultsSection>
+        <section className="game__section game__section--playing">
+          {loadingResult && <h2>Loading...</h2>}
+          {scorePostingError && <h2>{scorePostingError}</h2>}
+        </section>
       )}
       {(isSpinning || isConfirmingSpin) && (
         <SpinnerOverlay
