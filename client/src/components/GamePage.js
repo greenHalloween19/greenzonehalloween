@@ -84,7 +84,7 @@ const GamePage = () => {
     } else if ((nextTile >= 67) & (nextTile <= 72)) {
       area = "Jack's House";
       // Add Sally's lab here! (73-88)
-    } else if ((nextTile >= 73) & (nextTile <= 95)) {
+    } else if ((nextTile >= 73) & (nextTile <= 88)) {
       area = "Finkelstein's Castle";
     } else if ((nextTile >= 89) & (nextTile <= 95)) {
       area = "Oogie Boogie's Lair";

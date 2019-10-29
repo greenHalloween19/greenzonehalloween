@@ -283,7 +283,7 @@
     }
   }
   display: grid;
-  grid-template-columns: repeat(3, 33%);
+  grid-template-columns: repeat(2, 50%);
   .character-tile {
     position: relative;
     &--selected {
