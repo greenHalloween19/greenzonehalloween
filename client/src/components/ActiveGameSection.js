@@ -22,7 +22,7 @@ const ActiveGameSection = ({
           Tile: <span className="primary-title">{currentTileNumber}</span>
         </h3>
         <h3>
-          Score: <span className="primary-title">{currentPoints}</span>
+          Score: <span className={"primary-title " + (currentPoints > 0 ? '' : 'lose')}>{currentPoints}</span>
         </h3>
         <h3>
           Presents:{' '}

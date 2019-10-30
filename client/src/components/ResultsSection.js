@@ -39,9 +39,7 @@ const ResultsSection = ({ id }) => {
         {!loading && scores && scores.length > 1 && (
           <p>An Error Occured when fetching by ID.</p>
         )}
-        {!loading && !scores && (
-          <p>An Error Occured when fetching by ID.</p>
-        )}
+        {!loading && !scores && <p>An Error Occured when fetching by ID.</p>}
         {!loading && scores && scores.length !== 0 && (
           <Fragment>
             <h1 className="primary-title">Game Complete!</h1>
@@ -52,7 +50,14 @@ const ResultsSection = ({ id }) => {
               </div>
               <p>
                 Score:{' '}
-                <span className="primary-title">{scores && scores.score}</span>
+                <span
+                  className={
+                    'primary-title ' +
+                    (scores && scores.score > 0 ? '' : 'lose')
+                  }
+                >
+                  {scores && scores.score}
+                </span>
               </p>
               {(!error || positionError) && (
                 <p>

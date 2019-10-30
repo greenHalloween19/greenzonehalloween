@@ -74,7 +74,7 @@ const GamePage = () => {
     } else if ((nextTile >= 17) & (nextTile <= 20)) {
       area = 'Ring of Holiday Trees';
     } else if ((nextTile >= 21) & (nextTile <= 30)) {
-      area = 'Vortex to Christmas Land';
+      area = 'Vortex to Christmas Town';
     } else if ((nextTile >= 31) & (nextTile <= 39)) {
       area = 'Christmas Town';
     } else if ((nextTile >= 40) & (nextTile <= 50)) {
@@ -154,6 +154,7 @@ const GamePage = () => {
       navigate(`highscores/${data._id}`);
     } catch (e) {
       console.error(e);
+      setLoadingResult(false);
       setScorePostingError('There was an error posting your score!');
     }
   };
