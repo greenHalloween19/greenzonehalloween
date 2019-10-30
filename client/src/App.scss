@@ -9,7 +9,7 @@
     color: lime;
     font-size: 1em;
     @media only screen and (min-width: 400px) {
-      font-size: 1.5em
+      font-size: 1.5em;
     }
   }
   &__content {
@@ -45,6 +45,8 @@
   color: lime;
 }
 
+// Would of been better to have an app container div for colors and such!
+// Could introduce a theme for accessibility / light dark / whatever we want.
 .home {
   font-family: 'Press Start 2P', cursive;
   color: orange;
@@ -52,9 +54,18 @@
   height: 100vh;
   text-align: center;
   overflow: auto;
+  padding: 15px;
+  box-sizing: border-box;
   &__title {
     color: lime;
-    margin-top: 30vh;
+    margin-top: 25vh;
+    position: relative;
+    &--card {
+      font-size: 1em;
+      @media only screen and (min-width: 330px) {
+        font-size: 1.1em;
+      }
+    }
   }
 }
 
@@ -64,7 +75,10 @@
   width: 100%;
   align-items: center;
   justify-content: center;
-  height: 30%;
+  overflow:auto;
+  @media only screen and (min-height: 470px) {
+    height: 30%;
+  }
   .link-button {
     margin: 10px 0;
   }
