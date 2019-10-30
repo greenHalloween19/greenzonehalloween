@@ -154,6 +154,7 @@ const GamePage = () => {
       navigate(`highscores/${data._id}`);
     } catch (e) {
       console.error(e);
+      setLoadingResult(false);
       setScorePostingError('There was an error posting your score!');
     }
   };
