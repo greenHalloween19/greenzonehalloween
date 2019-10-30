@@ -122,7 +122,7 @@ export const tiles = {
       points: 500
     }
   ],
-  'Vortex to Christmas Land': [
+  'Vortex to Christmas Town': [
     {
       icon: Jack,
       desc: 'Traveling to Christmas Town',
