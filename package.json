@@ -21,7 +21,7 @@
   "homepage": "https://github.com/greenHalloween19/greenzonehalloween#readme",
   "dependencies": {
     "config": "^3.2.3",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "express-validator": "^6.2.0",
     "mongoose": "^5.7.5",
     "node-sass": "^4.12.0"
